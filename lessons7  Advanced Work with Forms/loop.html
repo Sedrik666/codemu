@@ -19,9 +19,9 @@
                 value: 'Hello',
                 checked: false,
                 selected: 'javascript',
-                selected2: {
-                    value: 'js',
-                    name: 'Язык JavaScript',
+	            selected2: {
+                    value: 'css',
+                    name: 'Язык CSS',
                 },
                 langs:[
                     {
@@ -62,22 +62,21 @@
         }
 
         handleSelect2(event){
-            const selected = {
-                name: event.target.value,
-                value: event.target.value,
-            };
+            const selected = this.state.langs.find(element =>{
+                return element.value === event.target.value;
+            });
             this.setState({selected2: selected});
-            console.log(selected);
         }
 
         render() {
             const langs = this.state.langs.map((item, index) =>{
                 return(
-                    <option key={item.value}>
+                    <option key={item.value}
+                            value={item.value}
+                    >
                         {item.name}
                     </option>
                 );
-
             });
 
             return (
