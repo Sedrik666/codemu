@@ -40,7 +40,8 @@
                         value: 'php',
                         name: 'Язык PHP',
                     },
-                ]
+                ],
+	            option: 'option1',
             };
             this.handleCheck = this.handleCheck.bind(this);
         }
@@ -66,6 +67,10 @@
                 return element.value === event.target.value;
             });
             this.setState({selected2: selected});
+        }
+
+        handleRadio(event){
+            this.setState({option: event.target.value})
         }
 
         render() {
@@ -112,6 +117,19 @@
                     >
                         {langs}
                     </select>
+	                <h3>Радиокнопочки</h3>
+	                <input name="lang"
+	                       type="radio"
+	                       value="option1"
+	                       checked={this.state.option==='option1'}
+	                       onChange={this.handleRadio.bind(this)}
+	                />
+                    <input name="lang"
+                           type="radio"
+                           value="option2"
+                           checked={this.state.option==='option2'}
+                           onChange={this.handleRadio.bind(this)}
+                    />
                 </div>
             );
         }
