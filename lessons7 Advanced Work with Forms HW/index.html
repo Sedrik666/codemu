@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Задачи на продвинутую работу с формами в React</title>
+	<script src="https://npmcdn.com/react@15.3.0/dist/react.js"></script>
+	<script src="https://npmcdn.com/react-dom@15.3.0/dist/react-dom.js"></script>
+	<script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+	<script src="https://npmcdn.com/jquery@3.1.0/dist/jquery.min.js"></script>
+	<script src="https://npmcdn.com/remarkable@1.6.2/dist/remarkable.min.js"></script>
+</head>
+<body>
+<div id="content"></div>
+<script type="text/babel">
+    class App extends React.Component {
+        constructor() {
+            super();
+            this.state = {
+                textarea1: 'Your text',
+	            selected4: 'Rivne',
+	            cities: [
+	                'Kyiv',
+		            'Lviv',
+		            'Odessa',
+		            'Rivne'
+	            ],
+                selected5: 3,
+	            radio6: '3',
+            };
+            this.handleChange = this.handleChange.bind(this);
+        }
+
+        handleChange(event){
+            const target = event.target;
+            const value = target.type === 'checkbox' ? target.checked : target.value;
+            const name = target.name;
+            this.setState({
+	            [name]: value,
+            });
+        }
+
+        render() {
+            const citites = this.state.cities.map((item, index) => {
+                return(
+                    <option key={index}
+                            value={index}
+                    >
+	                    {item}
+                    </option>
+                );
+            });
+
+            return (
+                <div>
+                    <h2>Задачи на продвинутую работу с формами в React</h2>
+
+                    <h4>1. Дан текстареа и абзац. Сделайте так, чтобы при наборе текста в текстареа он автоматически появлялся в этом абзаце.</h4>
+                    <p>{this.state.textarea1}</p>
+                    <textarea value={this.state.textarea1}
+                              name="textarea1"
+                              onChange={this.handleChange}
+                    />
+
+                    <h4>2. Дан чекбокс и абзац. Сделайте так, чтобы состояние чекбокса выводилось в этот абзац.</h4>
+	                <input type="checkbox"
+	                       name="checkbox2"
+	                       checked={this.state.checkbox2||false}
+	                       onChange={this.handleChange}
+	                />
+	                <p>{this.state.checkbox2?'Checked':'Unchecked'}</p>
+
+	                <h4>3. Дан чекбокс и какой-то абзац с текстом. Сделайте так, чтобы если чекбокс отмечен - абзац был виден на экране, а если не отмечен - не видим.</h4>
+                    <input type="checkbox"
+                           name="checkbox3"
+                           checked={this.state.checkbox3||false}
+                           onChange={this.handleChange}
+                    />
+	                {
+	                    this.state.checkbox3 &&
+	                    <p>{this.state.textarea1}</p>
+	                }
+
+	                <h4>4. Дан селект со списком городов (просто селект в HTML коде, option не из массива). Дан также абзац, в который выводится выбранный город. Сделайте так, чтобы при смене города в селекте в абзаце он также менялся.</h4>
+                    <select value={this.state.selected4}
+                            name="selected4"
+                            onChange={this.handleChange}
+                    >
+                        <option>Kyiv</option>
+                        <option>Lviv</option>
+                        <option>Odessa</option>
+                        <option>Rivne</option>
+                    </select>
+	                <p>You selected: {this.state.selected4}</p>
+
+	                <h4>5. Модифицируйте предыдущую задачу так, чтобы список городов хранился в массиве из стейта.</h4>
+	                <select value={this.state.selected5}
+                                 name="selected5"
+                                 onChange={this.handleChange}>
+		                {citites}
+	                </select>
+                    <p>You selected: {this.state.cities[this.state.selected5]}</p>
+
+	                <h4>6. Даны 3 радиокнопочки со значениями 1, 2 и 3. Дан абзац. Сделайте так, чтобы значение выбранной радиокнопочки выводилось в этот абзац.</h4>
+	                <input type="radio"
+	                       name="radio6"
+	                       value='1'
+	                       checked={this.state.radio6==='1'}
+	                       onChange={this.handleChange}
+	                />
+                    <input type="radio"
+                           name="radio6"
+                           value='2'
+                           checked={this.state.radio6==='2'}
+                           onChange={this.handleChange}
+                    />
+                    <input type="radio"
+                           name="radio6"
+                           value='3'
+                           checked={this.state.radio6==='3'}
+                           onChange={this.handleChange}
+                    />
+                    <p>Your choise is: {this.state.radio6}</p>
+
+	                <h4>7. Дан текстареа и кнопка. Дан также стейт texts с массивом текстов. Изначально этот массив пустой, но каждый раз по нажатию на кнопку в конец этого массива должно записаться текущее содержимое текстареа. Выведите содержимое массива this.state.texts так, чтобы каждый элемент массива выводился в новом абзаце.</h4>
+
+                </div>
+            );
+        }
+    }
+
+    ReactDOM.render(
+        <App/>,
+        document.getElementById("content")
+    );
+
+</script>
+
+</body>
+</html>
