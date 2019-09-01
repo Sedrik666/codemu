@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Продвинутая работа с формами в фреймворке React</title>
+    <meta charset="UTF-8">
+    <title>Продвинутая работа с формами в фреймворке React</title>
     <script src="https://npmcdn.com/react@15.3.0/dist/react.js"></script>
     <script src="https://npmcdn.com/react-dom@15.3.0/dist/react-dom.js"></script>
     <script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
@@ -12,19 +12,107 @@
 <body>
 <div id="content"></div>
 <script type="text/babel">
-    class App extends React.Component{
-        constructor(){
+    class App extends React.Component {
+        constructor() {
             super();
             this.state = {
-              value: 'Hello',
+                value: 'Hello',
+                checked: false,
+                selected: 'javascript',
+                selected2: {
+                    value: 'js',
+                    name: 'Язык JavaScript',
+                },
+                langs:[
+                    {
+                        value: 'html',
+                        name: 'Язык HTML'
+                    },
+                    {
+                        value: 'css',
+                        name: 'Язык CSS',
+                    },
+                    {
+                        value: 'js',
+                        name: 'Язык JavaScript',
+                    },
+                    {
+                        value: 'php',
+                        name: 'Язык PHP',
+                    },
+                ]
             };
+            this.handleCheck = this.handleCheck.bind(this);
         }
 
-        render(){
+        handleChange(event){
+            this.setState({
+                value: event.target.value,
+            })
+        }
 
-            return(
+        handleCheck(){
+            this.setState({
+               checked: !this.state.checked,
+            });
+        }
+
+        handleSelect(event){
+            this.setState({selected: event.target.value});
+        }
+
+        handleSelect2(event){
+            const selected = {
+                name: event.target.value,
+                value: event.target.value,
+            };
+            this.setState({selected2: selected});
+            console.log(selected);
+        }
+
+        render() {
+            const langs = this.state.langs.map((item, index) =>{
+                return(
+                    <option key={item.value}>
+                        {item.name}
+                    </option>
+                );
+
+            });
+
+            return (
                 <div>
-                    <h1>Test</h1>
+                    <h2>Продвинутая работа с формами в фреймворке React</h2>
+                    <br/>
+                    <h3>Работа с textarea</h3>
+                    <p>Text: {this.state.value}</p>
+                    <textarea value={this.state.value} onChange={this.handleChange.bind(this)}/>
+                    <br/>
+                    <h3>Работа с checkbox</h3>
+                    <p>Checkbox: {String(this.state.checked)}</p>
+                    <input type='checkbox'
+                           checked={this.state.checked}
+                           onChange={this.handleCheck}
+                    />
+                    <br/>
+                    <h3>Работа с select</h3>
+                    <p>You selected: {this.state.selected}</p>
+                    <select value={this.state.selected}
+                            onChange={this.handleSelect.bind(this)}
+                    >
+                        <option>html</option>
+                        <option>css</option>
+                        <option>javascript</option>
+                        <option>php</option>
+                    </select>
+                    <br/>
+                    <h3>Продвинутая работа с селектами</h3>
+                    <p>You selected: {this.state.selected2.name}</p>
+                    <select value={this.state.selected2.value}
+                            onChange={this.handleSelect2.bind(this)}
+                    >
+                        {langs}
+                    </select>
                 </div>
             );
         }
