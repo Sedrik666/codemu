@@ -17,44 +17,163 @@
             super();
             this.state = {
                 textarea1: 'Your text',
-	            selected4: 'Rivne',
-	            cities: [
-	                'Kyiv',
-		            'Lviv',
-		            'Odessa',
-		            'Rivne'
-	            ],
+                selected4: 'Rivne',
+                cities: [
+                    'Kyiv',
+                    'Lviv',
+                    'Odessa',
+                    'Rivne'
+                ],
                 selected5: 3,
-	            radio6: '3',
+                radio6: '3',
+                texts7: [],
+                selected8: 0,
+                colors8: [
+                    'black',
+                    'red',
+                    'yellow',
+                    'blue',
+                ],
+                checked9: false,
+                selected10: 0,
+                select11: [],
+                months13: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],
+                years13: Array(50).fill(0).map((item, index) => {
+                    return (1975 + index);
+                }),
             };
             this.handleChange = this.handleChange.bind(this);
+            this.arrPush = this.arrPush.bind(this);
+            this.arrPush11 = this.arrPush11.bind(this);
         }
 
-        handleChange(event){
+        handleChange(event) {
             const target = event.target;
             const value = target.type === 'checkbox' ? target.checked : target.value;
             const name = target.name;
             this.setState({
-	            [name]: value,
+                [name]: value,
             });
         }
 
+        arrPush(event) {
+            event.preventDefault();
+            const arr = this.state.texts7.slice();
+            arr.push(this.state.textarea7);
+            this.setState({texts7: arr});
+        }
+
+        arrPush11(event) {
+            event.preventDefault();
+            const arr = this.state.options11.slice();
+            arr.push(this.state.input11);
+            this.setState({options11: arr});
+        }
+
         render() {
-            const citites = this.state.cities.map((item, index) => {
-                return(
+            const state = this.state;
+            const {cities, texts7, colors8, selected10, select11, months13, years13, daySelected13, monthSelected13, yearSelected13} = state;
+
+            const options5 = cities.map((item, index) => {
+                return (
                     <option key={index}
                             value={index}
                     >
-	                    {item}
+                        {item}
                     </option>
                 );
             });
 
+            const list7 = texts7.map((item, index) => {
+                return (
+                    <li key={index}>
+                        {item}
+                    </li>
+                );
+            });
+
+            const options8 = colors8.map((item, index) => {
+                return (
+                    <option key={index}
+                            value={index}
+                    >
+                        {item}
+                    </option>
+                );
+            });
+
+            const options10 = cities.map((item, index) => {
+                return (
+                    <option key={index}
+                            value={index}
+                    >
+                        {item}
+                    </option>
+                );
+            });
+
+            const paragraph10 = cities.map((item, index) => {
+
+                return (
+                    +selected10 === index &&
+                    <p key={index}>
+                        {item}
+                    </p>
+                );
+            });
+
+            const options11 = select11.map((item, index) => {
+                return (
+                    <option key={index}
+                            value={index}
+                    >
+                        {item}
+                    </option>
+                );
+            });
+
+            const today = new Date();
+            const nowDate = today.getDate();
+            const nowMonth = today.getMonth();
+            const nowYear = today.getFullYear();
+
+            const optionsMonths13 = months13.map((item, index) => {
+                return (
+                    <option key={index}
+                            value={index}
+                    >
+                        {item}
+                    </option>
+                );
+            });
+            const optionsYears13 = years13.map((item, index) => {
+                return (
+                    <option key={index}
+                            value={item}
+                    >
+                        {item}
+                    </option>
+                );
+            });
+            const daysInMonth = 32 - new Date(yearSelected13 || nowYear, monthSelected13 || nowMonth, 32).getDate();
+            const optionsDays13 = Array(daysInMonth).fill(0).map((item, index) => {
+                return (
+                    <option key={index}
+                            value={index}
+                    >
+                        {index + 1}
+                    </option>
+                );
+            });
+
+            let selectedDay = new Date(yearSelected13 || nowYear, monthSelected13 || nowMonth, daySelected13 || nowDate);
+            const dayOfWeek = selectedDay.toLocaleString('en-us', {weekday: 'long'});
             return (
-                <div>
+                <figure>
                     <h2>Задачи на продвинутую работу с формами в React</h2>
 
-                    <h4>1. Дан текстареа и абзац. Сделайте так, чтобы при наборе текста в текстареа он автоматически появлялся в этом абзаце.</h4>
+                    <h4>1. Дан текстареа и абзац. Сделайте так, чтобы при наборе текста в текстареа он автоматически
+                        появлялся в этом абзаце.</h4>
                     <p>{this.state.textarea1}</p>
                     <textarea value={this.state.textarea1}
                               name="textarea1"
@@ -62,25 +181,30 @@
                     />
 
                     <h4>2. Дан чекбокс и абзац. Сделайте так, чтобы состояние чекбокса выводилось в этот абзац.</h4>
-	                <input type="checkbox"
-	                       name="checkbox2"
-	                       checked={this.state.checkbox2||false}
-	                       onChange={this.handleChange}
-	                />
-	                <p>{this.state.checkbox2?'Checked':'Unchecked'}</p>
-
-	                <h4>3. Дан чекбокс и какой-то абзац с текстом. Сделайте так, чтобы если чекбокс отмечен - абзац был виден на экране, а если не отмечен - не видим.</h4>
                     <input type="checkbox"
-                           name="checkbox3"
-                           checked={this.state.checkbox3||false}
+                           name="checkbox2"
+                           checked={this.state.checkbox2 || false}
                            onChange={this.handleChange}
                     />
-	                {
-	                    this.state.checkbox3 &&
-	                    <p>{this.state.textarea1}</p>
-	                }
+                    <p>{this.state.checkbox2 ? 'Checked' : 'Unchecked'}</p>
 
-	                <h4>4. Дан селект со списком городов (просто селект в HTML коде, option не из массива). Дан также абзац, в который выводится выбранный город. Сделайте так, чтобы при смене города в селекте в абзаце он также менялся.</h4>
+                    <h4>3. Дан чекбокс и какой-то абзац с текстом. Сделайте так, чтобы если чекбокс отмечен - абзац
+                        был
+                        виден на экране, а если не отмечен - не видим.</h4>
+                    <input type="checkbox"
+                           name="checkbox3"
+                           checked={this.state.checkbox3 || false}
+                           onChange={this.handleChange}
+                    />
+                    {
+                        this.state.checkbox3 &&
+                        <p>{this.state.textarea1}</p>
+                    }
+
+                    <h4>4. Дан селект со списком городов (просто селект в HTML коде, option не из массива). Дан
+                        также
+                        абзац, в который выводится выбранный город. Сделайте так, чтобы при смене города в селекте в
+                        абзаце он также менялся.</h4>
                     <select value={this.state.selected4}
                             name="selected4"
                             onChange={this.handleChange}
@@ -90,40 +214,146 @@
                         <option>Odessa</option>
                         <option>Rivne</option>
                     </select>
-	                <p>You selected: {this.state.selected4}</p>
+                    <p>You selected: {this.state.selected4}</p>
 
-	                <h4>5. Модифицируйте предыдущую задачу так, чтобы список городов хранился в массиве из стейта.</h4>
-	                <select value={this.state.selected5}
-                                 name="selected5"
-                                 onChange={this.handleChange}>
-		                {citites}
-	                </select>
+                    <h4>5. Модифицируйте предыдущую задачу так, чтобы список городов хранился в массиве из
+                        стейта.</h4>
+                    <select value={this.state.selected5}
+                            name="selected5"
+                            onChange={this.handleChange}>
+                        {options5}
+                    </select>
                     <p>You selected: {this.state.cities[this.state.selected5]}</p>
 
-	                <h4>6. Даны 3 радиокнопочки со значениями 1, 2 и 3. Дан абзац. Сделайте так, чтобы значение выбранной радиокнопочки выводилось в этот абзац.</h4>
-	                <input type="radio"
-	                       name="radio6"
-	                       value='1'
-	                       checked={this.state.radio6==='1'}
-	                       onChange={this.handleChange}
-	                />
+                    <h4>6. Даны 3 радиокнопочки со значениями 1, 2 и 3. Дан абзац. Сделайте так, чтобы значение
+                        выбранной радиокнопочки выводилось в этот абзац.</h4>
+                    <input type="radio"
+                           name="radio6"
+                           value='1'
+                           checked={this.state.radio6 === '1'}
+                           onChange={this.handleChange}
+                    />
                     <input type="radio"
                            name="radio6"
                            value='2'
-                           checked={this.state.radio6==='2'}
+                           checked={this.state.radio6 === '2'}
                            onChange={this.handleChange}
                     />
                     <input type="radio"
                            name="radio6"
                            value='3'
-                           checked={this.state.radio6==='3'}
+                           checked={this.state.radio6 === '3'}
                            onChange={this.handleChange}
                     />
                     <p>Your choise is: {this.state.radio6}</p>
 
-	                <h4>7. Дан текстареа и кнопка. Дан также стейт texts с массивом текстов. Изначально этот массив пустой, но каждый раз по нажатию на кнопку в конец этого массива должно записаться текущее содержимое текстареа. Выведите содержимое массива this.state.texts так, чтобы каждый элемент массива выводился в новом абзаце.</h4>
+                    <h4>
+                        7. Дан текстареа и кнопка. Дан также стейт texts с массивом текстов. Изначально этот массив
+                        пустой, но каждый раз по нажатию на кнопку в конец этого массива должно записаться текущее
+                        содержимое текстареа. Выведите содержимое массива this.state.texts так, чтобы каждый элемент
+                        массива выводился в новом абзаце.
+                    </h4>
+                    <form onSubmit={this.arrPush}>
+	                        <textarea value={this.state.textarea7 || ''}
+                                      name="textarea7"
+                                      onChange={this.handleChange}
+                            />
+                        <br/>
+                        <input type="submit"/>
+                    </form>
+                    <ul>
+                        {list7}
+                    </ul>
 
-                </div>
+                    <h4>8. Дан селект со списком CSS цветов. Дан абзац. Сделайте так, чтобы при смене цвета абзац
+                        красился в выбранный цвет.</h4>
+                    <select value={this.state.selected8}
+                            name="selected8"
+                            onChange={this.handleChange}
+                    >
+                        {options8}
+                    </select>
+                    <p style={{color: this.state.colors8[this.state.selected8]}}>{this.state.colors8[this.state.selected8]}</p>
+
+                    <h4>9. Дан селект с двумя значениями: 'отмечено' и 'не отмечено'. Дан также чекбокс. Сделайте так,
+                        чтобы при изменении значения селекта, чекбокс менял свое состояние с 'отмечено' на 'не отмечено'
+                        и наоброт.</h4>
+                    <select value={this.state.checked9}
+                            name="checked9"
+                            onChange={this.handleChange}
+                    >
+                        <option value={true}>Отмечено</option>
+                        <option value={false}>Неотмечено</option>
+                    </select>
+                    <input type="checkbox"
+                           name="checked9"
+                           checked={this.state.checked9 || false}
+                           onChange={this.handleChange}
+                    />
+
+                    <h4>10. Дан селект и 3 абзаца. В селекте можно выбрать один из трех пунктов. Сделайте так, чтобы в
+                        зависимости от выбора на экране был виден один из трех абзацев.</h4>
+                    <select value={this.state.selected10}
+                            name="selected10"
+                            onChange={this.handleChange}
+                    >
+                        {options10}
+                    </select>
+                    {paragraph10}
+
+                    <h4>11. Дан инпут, кнопка и селект. Сделайте следующее: в инпут вводится какая-то строка и по
+                        нажатию на кнопку эта строка должна добавится в конец селекта в виде нового option.</h4>
+                    <form onSubmit={this.arrPush11}>
+                        <input type="text"
+                               name="input11"
+                               onChange={this.handleChange}
+                        />
+                        <br/>
+                        <input type="submit"/>
+                        <br/>
+                        <select>
+                            {options11}
+                        </select>
+                    </form>
+
+                    <h4>12. Дан чекбокс и инпут. Сделайте так, чтобы если чекбокс не отмечен - то инпут находится в
+                        заблокированном состоянии (через disabled, а если отмечен - то в незаблокированном.</h4>
+                    <input type="text"
+                           value={this.state.input12 || ''}
+                           name="input12"
+                           onChange={this.handleChange}
+                           disabled={this.state.checkbox12 || false}
+                    />
+                    <input type="checkbox"
+                           name="checkbox12"
+                           checked={this.state.checkbox12 || false}
+                           onChange={this.handleChange}
+                    />
+
+                    <h4>13. Даны 3 селекта. В первом можно выбрать день, во втором месяц, а в третьем год. Дан абзац.
+                        Сделайте так, чтобы в этот абзац вывелся день недели за выбранную дату. Пусть по умолчанию в
+                        селекте отображается текущая дата.
+                    </h4>
+                    <select value={this.state.daySelected13 || nowDate}
+                            name="daySelected13"
+                            onChange={this.handleChange}
+                    >
+                        {optionsDays13}
+                    </select>
+                    <select value={this.state.monthSelected13 || nowMonth}
+                            name="monthSelected13"
+                            onChange={this.handleChange}
+                    >
+                        {optionsMonths13}
+                    </select>
+                    <select value={this.state.yearSelected13 || nowYear}
+                            name="yearSelected13"
+                            onChange={this.handleChange}
+                    >
+                        {optionsYears13}
+                    </select>
+                    <p>Day of week for selected date: {dayOfWeek}</p>
+                </figure>
             );
         }
     }
@@ -134,6 +364,5 @@
     );
 
 </script>
-
 </body>
 </html>
