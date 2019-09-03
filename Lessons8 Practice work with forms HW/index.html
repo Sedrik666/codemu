@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Задачи на продвинутую работу с формами в React</title>
+	<script src="https://npmcdn.com/react@15.3.0/dist/react.js"></script>
+	<script src="https://npmcdn.com/react-dom@15.3.0/dist/react-dom.js"></script>
+	<script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+	<script src="https://npmcdn.com/jquery@3.1.0/dist/jquery.min.js"></script>
+	<script src="https://npmcdn.com/remarkable@1.6.2/dist/remarkable.min.js"></script>
+</head>
+<body>
+<div id="content"></div>
+<script type="text/babel">
+    class App extends React.Component {
+        constructor() {
+            super();
+            this.state = {
+                array1: [
+                    'Your text 1',
+                    'Your text 2',
+                    'Your text 3',
+                    'Your text 4',
+                ]
+            };
+            this.handleChange = this.handleChange.bind(this);
+        }
+
+        handleChange(event) {
+            const target = event.target;
+            const value = target.type === 'checkbox' ? target.checked : target.value;
+            const name = target.name;
+            this.setState({
+                [name]: value,
+            });
+        }
+
+        render() {
+            const {array1} = this.state;
+            const list1 = array1.map((item, index) => {
+                return(
+                    <li key = {index}
+                        style={{textDecoration: this.state["check1_" + index] ?'line-through': 'none'}}
+                    >
+	                    {item}
+	                    <input type="checkbox"
+                               value={this.state["check1_" + index]}
+	                           name={"check1_" + index}
+	                           onChange={this.handleChange}
+	                    />
+                    </li>
+                );
+            });
+
+            return (
+                <figure>
+                    <h2>Практика по работе с формами в фреймворке React</h2>
+
+	                <h3>Чекбоксы + массивы</h3>
+                    <h4>1. Дан массив. Выведите элементы этого массива в виде списка ul. Сделайте так, чтобы внутри каждой li был чекбокс, по нажатию на который содержимое чекбокса будет перечеркиваться.</h4>
+					<ul>
+						{list1}
+					</ul>
+                </figure>
+            );
+        }
+    }
+
+    ReactDOM.render(
+        <App/>,
+        document.getElementById("content")
+    );
+
+</script>
+</body>
+</html>
