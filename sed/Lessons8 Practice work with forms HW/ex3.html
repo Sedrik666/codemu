@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Задачи на продвинутую работу с формами в React</title>
+	<script src="https://npmcdn.com/react@15.3.0/dist/react.js"></script>
+	<script src="https://npmcdn.com/react-dom@15.3.0/dist/react-dom.js"></script>
+	<script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+	<script src="https://npmcdn.com/jquery@3.1.0/dist/jquery.min.js"></script>
+	<script src="https://npmcdn.com/remarkable@1.6.2/dist/remarkable.min.js"></script>
+</head>
+<body>
+<div id="content"></div>
+<script type="text/babel">
+    class App extends React.Component {
+
+        constructor() {
+            super();
+            this.state = {
+                array3: [
+                    'Your text 1',
+                    'Your text 2',
+                    'Your text 3',
+                    'Your text 4',
+                ],
+	            check3_0: true,
+                check3_1: true,
+                check3_2: true,
+                check3_3: true,
+            };
+            this.handleChange = this.handleChange.bind(this);
+        }
+
+        handleChange(event) {
+            const target = event.target;
+            const value = target.type === 'checkbox' ? target.checked : target.value;
+            const name = target.name;
+            this.setState({
+                [name]: value,
+            });
+        }
+
+        render() {
+            const {array3} = this.state;
+	        const paragraphs3 = array3.map((item, index) => {
+	           return (
+	               <figure key={index}>
+		               <input type='checkbox'
+                              checked={this.state["check3_" + index]}
+                              name={"check3_" + index}
+                              onChange={this.handleChange}
+		               />
+		               {
+		                   this.state["check3_" + index] &&
+                           <p>
+                               {item}
+                           </p>
+		               }
+	               </figure>
+	           );
+	        });
+            return (
+                <figure>
+                    <h2>Практика по работе с формами в фреймворке React</h2>
+
+                    <h3>Чекбоксы + ифы</h3>
+                    <h4>
+                        3. Дан массив. Выведите каждый элемент этого массива в отдельном абзаце. Сделайте так, чтобы над
+                        каждым абзацем был чекбокс, со следующим поведением: если он отмечен - абзац под ним есть на
+                        экране, а если не отмечен - абзаца нет. По умолчанию пусть все чекбоксы отмечены.
+                    </h4>
+	                {paragraphs3}
+                </figure>
+            );
+        }
+    }
+
+    ReactDOM.render(
+        <App/>,
+        document.getElementById("content")
+    );
+
+</script>
+</body>
+</html>
