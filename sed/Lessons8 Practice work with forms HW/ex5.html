@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Задачи на продвинутую работу с формами в React</title>
+	<script src="https://npmcdn.com/react@15.3.0/dist/react.js"></script>
+	<script src="https://npmcdn.com/react-dom@15.3.0/dist/react-dom.js"></script>
+	<script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+	<script src="https://npmcdn.com/jquery@3.1.0/dist/jquery.min.js"></script>
+	<script src="https://npmcdn.com/remarkable@1.6.2/dist/remarkable.min.js"></script>
+</head>
+<body>
+<div id="content"></div>
+<script type="text/babel">
+    class App extends React.Component {
+
+        constructor() {
+            super();
+            this.state = {
+                array5: [
+                    'Mariula',
+	                'Viviene',
+	                'Mort',
+                ]
+            };
+            this.handleChange = this.handleChange.bind(this);
+            this.toggleInput = this.toggleInput.bind(this);
+        }
+
+        handleChange(event, index) {
+            const target = event.target;
+            const value = target.type === 'checkbox' ? target.checked : target.value;
+            const name = target.name;
+            const array = this.state[name].slice();
+            array[index] = value;
+            this.setState({
+                [name]: array,
+            });
+        }
+
+        toggleInput(name){
+            this.setState({[name]: !this.state[name]})
+        }
+
+        render() {
+            const {array5} = this.state;
+            const list5 = array5.map((item, index) => {
+                return (
+                    <li key={index}>
+	                    {
+	                        this.state['editable_' + index] ?
+                            <input type="text"
+                                   name="array5"
+                                   value={this.state.array5[index]}
+                                   onChange={(event) => {this.handleChange(event, index)}}
+                                   onBlur={() => {this.toggleInput('editable_' + index)}}
+                            />:
+	                        <span onClick={() => {this.toggleInput('editable_' + index)}}>
+		                        {item}
+	                        </span>
+	                    }
+                    </li>
+                );
+            });
+
+            return (
+                <figure>
+                    <h2>Практика по работе с формами в фреймворке React</h2>
+
+                    <h3>Редактирование элементов</h3>
+                    <h4>
+                        5. Дан массив. Выведите элементы этого массив в виде списка ul. Сделайте так, чтобы по нажатию
+                        на li внутри нее появился инпут, с помощью которого можно будет поредактировать текст этой li.
+                        По потери фокуса текст из инпута должен записаться обратно в li, а инпут исчезнуть..
+                    </h4>
+                    <ul>
+	                    {list5}
+                    </ul>
+                </figure>
+            );
+        }
+    }
+
+    ReactDOM.render(
+        <App/>,
+        document.getElementById("content")
+    );
+
+</script>
+</body>
+</html>
