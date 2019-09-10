@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Задачи на продвинутую работу с формами в React</title>
+	<script src="https://npmcdn.com/react@15.3.0/dist/react.js"></script>
+	<script src="https://npmcdn.com/react-dom@15.3.0/dist/react-dom.js"></script>
+	<script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+	<script src="https://npmcdn.com/jquery@3.1.0/dist/jquery.min.js"></script>
+	<script src="https://npmcdn.com/remarkable@1.6.2/dist/remarkable.min.js"></script>
+</head>
+<body>
+<div id="content"></div>
+<script type="text/babel">
+    class App extends React.Component {
+
+        constructor() {
+            super();
+            this.state = {
+                array7: [
+					'Kyiv => Lviv => Odessa => Kyiv',
+                    'Kyiv => Rivne => Dnipro => Kyiv',
+                    'Kyiv => Herson => Lviv => Kyiv',
+                ],
+            };
+            this.handleRadio = this.handleRadio.bind(this);
+        }
+
+        handleRadio(event, index){
+            const newOption7 = {
+                radio: event.target.value,
+	            index: index,
+            }
+            this.setState({option7: newOption7});
+        }
+
+        render() {
+            const {array7} = this.state;
+			const list7 = array7.map((item,index) => {
+			    return(
+                    <li key={index}>
+                        {item}
+                        <input type='radio'
+                               name={'option' + index}
+                               value={'option' + index}
+                               checked={
+                                   this.state.option7?
+                                   this.state.option7.radio==='option' + index:
+                                   false
+                               }
+                               onChange={(event) => this.handleRadio(event, index)}
+                        />
+                    </li>
+			    );
+			});
+
+            return (
+                <figure>
+                    <h2>Практика по работе с формами в фреймворке React</h2>
+
+                    <h3>Практика</h3>
+                    <h4>
+                        7. Дан массив с туристическими маршрутами. Выведите эти маршруты на экран так, чтобы рядом с
+                        каждым стояла радио-кнопочка. Пользователь может выбрать один из маршрутов. Его выбор должен
+                        отобразиться на экране в абзаце.
+                    </h4>
+	                <ul>
+		                {list7}
+	                </ul>
+	                <p>Your choise is: {
+	                    this.state.option7?
+	                    array7[this.state.option7.index] :
+	                    ''}
+	                </p>
+                </figure>
+            );
+        }
+    }
+
+    ReactDOM.render(
+        <App/>,
+        document.getElementById("content")
+    );
+
+</script>
+</body>
+</html>
