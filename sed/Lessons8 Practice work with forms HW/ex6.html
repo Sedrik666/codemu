@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Задачи на продвинутую работу с формами в React</title>
+	<script src="https://npmcdn.com/react@15.3.0/dist/react.js"></script>
+	<script src="https://npmcdn.com/react-dom@15.3.0/dist/react-dom.js"></script>
+	<script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+	<script src="https://npmcdn.com/jquery@3.1.0/dist/jquery.min.js"></script>
+	<script src="https://npmcdn.com/remarkable@1.6.2/dist/remarkable.min.js"></script>
+</head>
+<body>
+<div id="content"></div>
+<script type="text/babel">
+    class App extends React.Component {
+
+        constructor() {
+            super();
+            this.state = {
+                array6: [
+	                {name: 'Коля', age: 30},
+	                {name: 'Вася', age: 40},
+	                {name: 'Петя', age: 50},
+                ]
+            };
+            this.handleChange = this.handleChange.bind(this);
+            this.toggleInput = this.toggleInput.bind(this);
+        }
+
+        handleChange(event, index) {
+            const target = event.target;
+            const value = target.type === 'checkbox' ? target.checked : target.value;
+            const name = target.name;
+
+            const newObj = this.state.array6.slice();
+            newObj[index][name] = value;
+            this.setState({
+                array6: newObj,
+            });
+        }
+
+        toggleInput(name){
+            this.setState({
+	            [name]: !this.state[name]
+            })
+        }
+
+        render() {
+            const {array6} = this.state;
+            const tableRows6 = array6.map((item, index) => {
+                return (
+                    <tr key={index}>
+                        <td>
+	                        {
+	                            this.state['name_' + index]?
+                                <input type="text"
+                                       name="name"
+                                       value={item.name}
+                                       onChange={(event) => this.handleChange(event, index)}
+                                />:
+                                <span>
+		                            {item.name}
+	                            </span>
+	                        }
+
+	                        <span onClick={() => this.toggleInput('name_' + index)}
+	                              style={{marginLeft: '10px'}}
+	                        >
+		                        {this.state['name_' + index]? 'accept': 'edit'}
+	                        </span>
+                        </td>
+	                    <td>
+                            {
+                                this.state['age_' + index] ?
+                                <input type="text"
+                                       name="age"
+                                       value={item.age}
+                                       onChange={(event) => this.handleChange(event, index)}
+                                />:
+                                <span>
+		                            {item.age}
+	                            </span>
+                            }
+                            <span onClick={() => this.toggleInput('age_' + index)}
+                                  style={{marginLeft: '10px'}}
+                            >
+		                         {this.state['age_' + index]? 'accept': 'edit'}
+	                        </span>
+	                    </td>
+                    </tr>
+                );
+            });
+
+            return (
+                <figure>
+                    <h2>Практика по работе с формами в фреймворке React</h2>
+
+                    <h3>Редактирование элементов</h3>
+                    <h4>
+                        6. Сделайте так, чтобы внутри каждой td была кнопка 'редактировать', по нажатию на которую текст
+                        этой td можно будет поредактировать с помощью появившегося в ней инпута.
+                    </h4>
+                    <table>
+                        <tbody>
+                            {tableRows6}
+                        </tbody>
+                    </table>
+                </figure>
+            );
+        }
+    }
+
+    ReactDOM.render(
+        <App/>,
+        document.getElementById("content")
+    );
+
+</script>
+</body>
+</html>
