@@ -65,6 +65,15 @@
                     }
                 },
                 input11Color: '2px solid red',
+                employeesArr12: [
+                    {name: 'Аоля', surname: 'Иванов', salary: 100, gender: 'man'},
+                    {name: 'Вася', surname: 'Петров', salary: 40, gender: 'woman'},
+                    {name: 'Петя', surname: 'Аидоров', salary: 50, gender: 'man'},
+                ],
+	            genders12:[
+                    'man',
+		            'woman'
+	            ]
             };
             this.handleChange = this.handleChange.bind(this);
             this.arrPush = this.arrPush.bind(this);
@@ -73,6 +82,7 @@
             this.timeNow = this.timeNow.bind(this);
             this.sortArrEll = this.sortArrEll.bind(this);
             this.checkLength = this.checkLength.bind(this);
+            this.toggleChange = this.toggleChange.bind(this);
         }
 
         handleChange(event) {
@@ -91,15 +101,11 @@
             )
         }
 
-        arrPush(event) {
+        arrPush(event, arr, element) {
             event.preventDefault();
-            const arr = this.state.array8.slice();
-            const notesElement = {
-                time: this.timeNow(),
-                text: this.state.temporary8,
-            };
-            arr.push(notesElement);
-            this.setState({array8: arr});
+            const tempArr = this.state[arr].slice();
+            tempArr.push(element);
+            this.setState({[arr]: tempArr});
         }
 
         arrRemove(index) {
@@ -136,33 +142,42 @@
             this.setState({employeesArr9: sortedArr});
         }
 
-        checkLength(event){
+        checkLength(event) {
             const inputLength = event.target.value.length;
             const borderColor =
-	            (inputLength>=4&&inputLength<=9)?
-	            'green':
-	            'red';
-			this.setState({input11Color: '2px solid '+ borderColor})
+                (inputLength >= 4 && inputLength <= 9) ?
+                    'green' :
+                    'red';
+            this.setState({input11Color: '2px solid ' + borderColor})
+        }
+
+        toggleChange(element, boolean){
+			this.setState({[element]: boolean});
         }
 
         render() {
-            const {array8, employeesArr9, choiseLang10, weekDays10, langSelected10} = this.state;
+            const {
+                array8, editing8, temporaryTextarea8,
+	            employeesArr9,
+	            choiseLang10, weekDays10, langSelected10, selectDay10,
+                input11, input11Color, input11OnFocus,
+                tempGender12, employeesArr12, input12Name, input12Surname, input12Salary, genders12
+            } = this.state;
 
             const notes8 = array8.map((item, index) => {
-
                 return (
                     <div key={index}>
                         <div>Заметка {index}</div>
                         <div>{item.time}</div>
                         {
-                            this.state.editing8 === index ?
+                            editing8 === index ?
                                 <textarea value={item.text}
                                           onChange={(event) => this.arrEdit(event, index)}
                                 /> :
                                 <div>{item.text}</div>
                         }
                         {
-                            this.state.editing8 === index ?
+                            editing8 === index ?
                                 <div onClick={() => this.arrHandleEdit(false)}>
                                     Ok
                                 </div> :
@@ -212,6 +227,26 @@
                 );
             });
 
+            const employers12 = employeesArr12.map((item, index) => {
+               return(
+                   <tr key={index}>
+	                   <td>{item.name}</td>
+                       <td>{item.surname}</td>
+                       <td>{item.salary}</td>
+                       <td>{item.gender}</td>
+                   </tr>
+               );
+            });
+
+            const genderOptions12 = genders12.map(item => {
+                return(
+                    <option key={item}
+                            value={item}>
+	                    {item}
+                    </option>
+                );
+            });
+
             return (
                 <figure>
                     <h2>Практика по работе с формами в фреймворке React</h2>
@@ -225,9 +260,17 @@
                         время создания заметки (часы, минуты, секунды), а также должна быть кнопка 'удалить' и кнопка
                         'редактировать'.
                     </h4>
-                    <form onSubmit={this.arrPush}>
-                        <textarea value={this.state.temporary8}
-                                  name="temporary8"
+                    <form onSubmit={
+                        (event) => {
+	                        const notesElement = {
+	                            time: this.timeNow(),
+	                            text: temporaryTextarea8,
+	                        };
+	                        this.arrPush(event, 'array8', notesElement)}
+                        }
+                    >
+                        <textarea value={temporaryTextarea8}
+                                  name="temporaryTextarea8"
                                   onChange={this.handleChange}
                         />
                         <br/>
@@ -252,36 +295,93 @@
                         список дней недели по-русски. А если в первом селекте выбран английский - то и во втором дни
                         недели будут по-английски.
                     </h4>
-                    <select value={this.state.langSelected10}
+                    <select value={langSelected10}
                             name='langSelected10'
                             onChange={this.handleChange}
                     >
                         {langOptions10}
                     </select>
                     <br/>
-                    <select value={this.state.selectDay10 || this.state.weekDays10[langSelected10].days[0]}
+                    <select value={selectDay10 || weekDays10[langSelected10].days[0]}
                             name='selectDay10'
                             onChange={this.handleChange}>
                         {weekDayOptions10}
                     </select>
 
                     <h4>
-	                    11. Дан инпут. В него вводится строка. Сделайте так, чтобы если длина введенной строки от 4 до 9
+                        11. Дан инпут. В него вводится строка. Сделайте так, чтобы если длина введенной строки от 4 до 9
                         символов - граница инпута была зеленой, в противном случае - красной. Инпут должен проверять
                         свое содержимое по мере ввода.
                     </h4>
-	                <input type='text'
-	                       name='input11'
-	                       value={this.state.input11 || ''}
-	                       onChange={
-	                           (event)=>{
+                    <input type='text'
+                           name='input11'
+                           value={input11 || ''}
+                           onChange={
+                               (event) => {
                                    this.handleChange(event);
-	                               this.checkLength(event);
+                                   this.checkLength(event);
+                               }
+                           }
+                           onFocus={
+	                           () => {
+                                   this.toggleChange('input11OnFocus', true)
 	                           }
-	                       }
-	                       style={{border: this.state.input11Color}}
-	                />
+                           }
+                           onBlur={
+                               () => {
+                                   this.toggleChange('input11OnFocus', false)
+                               }
+                           }
+                           style={{border: input11OnFocus ? input11Color : ''}}
+                    />
 
+                    <h4>
+                        12. Дан массив с работниками. У каждого работника есть имя, фамилия, зарплата, пол. Выведите этих
+                        работников на экран в виде таблицы. Под таблице сделайте форму, с помощью которой в таблицу
+                        можно будет добавить нового работника. В этой форме имя, фамилия, зарплата будут инпутами, а пол
+                        - селектом, в котором можно будет выбрать один из двух вариантов.
+                    </h4>
+	                <table>
+		                <tbody>
+		                    {employers12}
+		                </tbody>
+	                </table>
+                    <form onSubmit={
+                        (event) => {
+                            const newEmployee = {
+                                name: input12Name || '',
+                                surname: input12Surname || '',
+	                            salary: input12Salary || '',
+	                            gender: tempGender12 || 'man',
+                            };
+                            this.arrPush(event, 'employeesArr12', newEmployee)}
+                    }
+                    >
+		                <input type='text'
+		                       name='input12Name'
+		                       value={input12Name || ''}
+		                       onChange={this.handleChange}
+		                />
+                        <input type='text'
+                               name='input12Surname'
+                               value={input12Surname || ''}
+                               onChange={this.handleChange}
+                        />
+                        <input type='text'
+                               name='input12Salary'
+                               value={input12Salary || ''}
+                               onChange={this.handleChange}
+                        />
+                        <select value={tempGender12 || 'man'}
+                                name='tempGender12'
+                                onChange={this.handleChange}
+                        >
+	                        {genderOptions12}
+                        </select>
+		                <input type='submit'
+                               value='Send'
+		                />
+	                </form>
                 </figure>
             );
         }
