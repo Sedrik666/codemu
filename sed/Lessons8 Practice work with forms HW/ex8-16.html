@@ -29,28 +29,28 @@
                     {name: 'Вася', surname: 'Петров', salary: 40},
                     {name: 'Петя', surname: 'Аидоров', salary: 50},
                 ],
-	            langSelected10: 'eng',
-	            choiseLang10: [
-		            {
-		                key: 'eng',
+                langSelected10: 'eng',
+                choiseLang10: [
+                    {
+                        key: 'eng',
                         name: 'English',
-		            },
+                    },
                     {
                         key: 'rus',
                         name: 'Русский',
                     },
-	            ],
-	            weekDays10: {
+                ],
+                weekDays10: {
                     eng: {
-	                    days: [
-	                        'Sunday',
-		                    'Monday',
-		                    'Tuesday',
-		                    'Wednesday',
-		                    'Thursday',
-		                    'Friday',
-		                    'Saturday'
-	                    ]
+                        days: [
+                            'Sunday',
+                            'Monday',
+                            'Tuesday',
+                            'Wednesday',
+                            'Thursday',
+                            'Friday',
+                            'Saturday'
+                        ]
                     },
                     rus: {
                         days: [
@@ -63,7 +63,8 @@
                             'Воскресенье'
                         ]
                     }
-	            }
+                },
+                input11Color: '2px solid red',
             };
             this.handleChange = this.handleChange.bind(this);
             this.arrPush = this.arrPush.bind(this);
@@ -71,7 +72,7 @@
             this.arrHandleEdit = this.arrHandleEdit.bind(this);
             this.timeNow = this.timeNow.bind(this);
             this.sortArrEll = this.sortArrEll.bind(this);
-            this.handleSelect = this.handleSelect.bind(this);
+            this.checkLength = this.checkLength.bind(this);
         }
 
         handleChange(event) {
@@ -135,9 +136,13 @@
             this.setState({employeesArr9: sortedArr});
         }
 
-        handleSelect(event){
-            const name = event.target.name;
-            this.setState({[name]: event.target.value});
+        checkLength(event){
+            const inputLength = event.target.value.length;
+            const borderColor =
+	            (inputLength>=4&&inputLength<=9)?
+	            'green':
+	            'red';
+			this.setState({input11Color: '2px solid '+ borderColor})
         }
 
         render() {
@@ -189,22 +194,22 @@
             });
 
             const langOptions10 = choiseLang10.map(item => {
-                return(
+                return (
                     <option key={item.key}
                             value={item.key}
                     >
-	                    {item.name}
+                        {item.name}
                     </option>
                 );
             });
 
             const weekDayOptions10 = weekDays10[langSelected10].days.map((item, index) => {
-               return(
-                   <option key={index}
-                           value={item}>
-	                   {item}
-                   </option>
-               );
+                return (
+                    <option key={index}
+                            value={item}>
+                        {item}
+                    </option>
+                );
             });
 
             return (
@@ -247,18 +252,35 @@
                         список дней недели по-русски. А если в первом селекте выбран английский - то и во втором дни
                         недели будут по-английски.
                     </h4>
-	                <select value={this.state.langSelected10}
-	                        name='langSelected10'
+                    <select value={this.state.langSelected10}
+                            name='langSelected10'
                             onChange={this.handleChange}
-	                >
-		                {langOptions10}
-	                </select>
-	                <br/>
-	                <select value={this.state.selectDay10 || this.state.weekDays10[langSelected10].days[0]}
+                    >
+                        {langOptions10}
+                    </select>
+                    <br/>
+                    <select value={this.state.selectDay10 || this.state.weekDays10[langSelected10].days[0]}
                             name='selectDay10'
                             onChange={this.handleChange}>
-		                {weekDayOptions10}
-	                </select>
+                        {weekDayOptions10}
+                    </select>
+
+                    <h4>
+	                    11. Дан инпут. В него вводится строка. Сделайте так, чтобы если длина введенной строки от 4 до 9
+                        символов - граница инпута была зеленой, в противном случае - красной. Инпут должен проверять
+                        свое содержимое по мере ввода.
+                    </h4>
+	                <input type='text'
+	                       name='input11'
+	                       value={this.state.input11 || ''}
+	                       onChange={
+	                           (event)=>{
+                                   this.handleChange(event);
+	                               this.checkLength(event);
+	                           }
+	                       }
+	                       style={{border: this.state.input11Color}}
+	                />
 
                 </figure>
             );
