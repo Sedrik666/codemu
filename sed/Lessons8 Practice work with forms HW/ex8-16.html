@@ -24,11 +24,46 @@
             this.state = {
                 array8: [],
                 editing8: false,
-                employeesArr8: [
+                employeesArr9: [
                     {name: 'Аоля', surname: 'Иванов', salary: 100},
                     {name: 'Вася', surname: 'Петров', salary: 40},
                     {name: 'Петя', surname: 'Аидоров', salary: 50},
-                ]
+                ],
+	            langSelected10: 'eng',
+	            choiseLang10: [
+		            {
+		                key: 'eng',
+                        name: 'English',
+		            },
+                    {
+                        key: 'rus',
+                        name: 'Русский',
+                    },
+	            ],
+	            weekDays10: {
+                    eng: {
+	                    days: [
+	                        'Sunday',
+		                    'Monday',
+		                    'Tuesday',
+		                    'Wednesday',
+		                    'Thursday',
+		                    'Friday',
+		                    'Saturday'
+	                    ]
+                    },
+                    rus: {
+                        days: [
+                            'Понедельник',
+                            'Вторник',
+                            'Среда',
+                            'Четверг',
+                            'Пятница',
+                            'Субота',
+                            'Воскресенье'
+                        ]
+                    }
+	            }
             };
             this.handleChange = this.handleChange.bind(this);
             this.arrPush = this.arrPush.bind(this);
@@ -36,6 +71,7 @@
             this.arrHandleEdit = this.arrHandleEdit.bind(this);
             this.timeNow = this.timeNow.bind(this);
             this.sortArrEll = this.sortArrEll.bind(this);
+            this.handleSelect = this.handleSelect.bind(this);
         }
 
         handleChange(event) {
@@ -81,31 +117,33 @@
             this.setState({array8: arr})
         }
 
-        sortArrEll(key){
-			const sortedArr = this.state.employeesArr8.slice();
-			sortedArr.sort((a, b) => {
-			    if(typeof(a[key])==="number") {
-			        return a[key] - b[key];
-                }
-			    else{
-                    if (a[key] > b[key]){
+        sortArrEll(key) {
+            const sortedArr = this.state.employeesArr9.slice();
+            sortedArr.sort((a, b) => {
+                if (typeof (a[key]) === "number") {
+                    return a[key] - b[key];
+                } else {
+                    if (a[key] > b[key]) {
                         return 1
-                    }
-                    else if (a[key] < b[key]) {
+                    } else if (a[key] < b[key]) {
                         return -1
-                    }
-                    else {
+                    } else {
                         return 0
                     }
-				}
-			});
-	        this.setState({employeesArr8: sortedArr});
+                }
+            });
+            this.setState({employeesArr9: sortedArr});
+        }
+
+        handleSelect(event){
+            const name = event.target.name;
+            this.setState({[name]: event.target.value});
         }
 
         render() {
-            const {employeesArr8} = this.state;
+            const {array8, employeesArr9, choiseLang10, weekDays10, langSelected10} = this.state;
 
-            const notes8 = this.state.array8.map((item, index) => {
+            const notes8 = array8.map((item, index) => {
 
                 return (
                     <div key={index}>
@@ -134,19 +172,38 @@
                 );
             });
 
-            const employees8 = employeesArr8.map((item, index) => {
+            const employees9 = employeesArr9.map((item, index) => {
+                return (
+                    <tr key={index}>
+                        <td onClick={() => this.sortArrEll('name')}>
+                            {item.name}
+                        </td>
+                        <td onClick={() => this.sortArrEll('surname')}>
+                            {item.surname}
+                        </td>
+                        <td onClick={() => this.sortArrEll('salary')}>
+                            {item.salary}
+                        </td>
+                    </tr>
+                );
+            });
+
+            const langOptions10 = choiseLang10.map(item => {
+                return(
+                    <option key={item.key}
+                            value={item.key}
+                    >
+	                    {item.name}
+                    </option>
+                );
+            });
+
+            const weekDayOptions10 = weekDays10[langSelected10].days.map((item, index) => {
                return(
-                   <tr key={index}>
-	                   <td onClick={() => this.sortArrEll('name')}>
-		                   {item.name}
-	                   </td>
-                       <td onClick={() => this.sortArrEll('surname')}>
-	                       {item.surname}
-                       </td>
-                       <td onClick={() => this.sortArrEll('salary')}>
-	                       {item.salary}
-                       </td>
-                   </tr>
+                   <option key={index}
+                           value={item}>
+	                   {item}
+                   </option>
                );
             });
 
@@ -178,11 +235,31 @@
                     <h4>9. Дан массив с работниками. У каждого работника есть имя, фамилия, зарплата. Выведите этих
                         работников на экран в виде таблицы. Сделайте так, чтобы работников можно было посортировать по
                         любой колонке этот таблицы.</h4>
-	                <table>
-		                <tbody>
-		                    {employees8}
-		                </tbody>
-	                </table>
+                    <table>
+                        <tbody>
+                        {employees9}
+                        </tbody>
+                    </table>
+
+                    <h4>
+                        10.Даны два селекта. С помощью первого селекта можно выбрать язык пользователя (русский или
+                        английский). Если в первом селекте выбран русский язык, то во втором селекте должен появится
+                        список дней недели по-русски. А если в первом селекте выбран английский - то и во втором дни
+                        недели будут по-английски.
+                    </h4>
+	                <select value={this.state.langSelected10}
+	                        name='langSelected10'
+                            onChange={this.handleChange}
+	                >
+		                {langOptions10}
+	                </select>
+	                <br/>
+	                <select value={this.state.selectDay10 || this.state.weekDays10[langSelected10].days[0]}
+                            name='selectDay10'
+                            onChange={this.handleChange}>
+		                {weekDayOptions10}
+	                </select>
+
                 </figure>
             );
         }
