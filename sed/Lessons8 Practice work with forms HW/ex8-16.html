@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Задачи на продвинутую работу с формами в React</title>
+	<script src="https://npmcdn.com/react@15.3.0/dist/react.js"></script>
+	<script src="https://npmcdn.com/react-dom@15.3.0/dist/react-dom.js"></script>
+	<script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+	<script src="https://npmcdn.com/jquery@3.1.0/dist/jquery.min.js"></script>
+	<script src="https://npmcdn.com/remarkable@1.6.2/dist/remarkable.min.js"></script>
+</head>
+<body>
+<div id="content"></div>
+<style>
+	figure{
+		margin: 20px 0 0;
+	}
+</style>
+<script type="text/babel">
+    class App extends React.Component {
+
+        constructor() {
+            super();
+            this.state = {
+                array8: [
+                ],
+                editing8: false,
+            };
+            this.handleChange = this.handleChange.bind(this);
+            this.arrPush = this.arrPush.bind(this);
+            this.arrRemove = this.arrRemove.bind(this);
+            this.arrHandleEdit = this.arrHandleEdit.bind(this);
+            this.timeNow = this.timeNow.bind(this);
+        }
+
+        handleChange(event) {
+            const target = event.target;
+            const value = target.type === 'checkbox' ? target.checked : target.value;
+            const name = target.name;
+            this.setState({
+                [name]: value,
+            });
+        }
+
+        timeNow(){
+            const now = new Date();
+            return(
+                now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds()
+            )
+        }
+
+        arrPush(event) {
+            event.preventDefault();
+            const arr = this.state.array8.slice();
+            const notesElement = {
+                time: this.timeNow(),
+	            text: this.state.temporary8,
+            };
+            arr.push(notesElement);
+            this.setState({array8: arr});
+        }
+
+        arrRemove(index){
+            const arr = this.state.array8.slice();
+            arr.splice(index, 1);
+            this.setState({array8: arr})
+        }
+
+        arrHandleEdit(index){
+            this.setState({editing8: index});
+        }
+
+        arrEdit(event, index){
+            const arr = this.state.array8.slice();
+            arr[index].text = event.target.value;
+            this.setState({array8: arr})
+        }
+
+        render() {
+            const {array8} = this.state;
+
+            const notes8 = this.state.array8.map((item, index) => {
+
+                return(
+                    <div key={index}>
+						<div>Заметка {index}</div>
+	                    <div>{item.time}</div>
+	                    {
+	                        this.state.editing8===index?
+	                        <textarea value={item.text}
+                                      onChange={(event) => this.arrEdit(event, index)}
+                            /> :
+                            <div>{item.text}</div>
+	                    }
+                        {
+                            this.state.editing8===index?
+                                <div onClick={() => this.arrHandleEdit(false)}>
+                                    Ok
+                                </div>:
+                                <div onClick={() => this.arrHandleEdit(index)}>
+                                    Edit
+                                </div>
+                        }
+	                    <div onClick={() => this.arrRemove(index)}>
+		                    Remove
+	                    </div>
+                    </div>
+                );
+            });
+
+
+            return (
+                <figure>
+                    <h2>Практика по работе с формами в фреймворке React</h2>
+
+                    <h3>Практика</h3>
+                    <h4>
+                        8. Дан текстареа и кнопка. В текстареа пользователь нашего сайта будет вводить свои заметки. После
+                        нажатия на кнопку введенный текст должен появится под текстареа в виде блока div. Таких заметок
+                        может быть много. В каждой заметке должен стоять заголовок (заметка1, заметка2 и так далее),
+                        время создания заметки (часы, минуты, секунды), а также должна быть кнопка 'удалить' и кнопка
+                        'редактировать'.
+                    </h4>
+	                <form onSubmit={this.arrPush}>
+                        <textarea value={this.state.temporary8}
+                                  name="temporary8"
+                                  onChange={this.handleChange}
+                        />
+                        <br />
+                        <input type='submit'/>
+	                </form>
+	                <figure>
+		                {notes8}
+	                </figure>
+                </figure>
+            );
+        }
+    }
+
+    ReactDOM.render(
+        <App/>,
+        document.getElementById("content")
+    );
+
+</script>
+</body>
+</html>
