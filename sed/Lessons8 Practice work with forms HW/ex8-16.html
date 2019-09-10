@@ -12,7 +12,7 @@
 <body>
 <div id="content"></div>
 <style>
-	figure{
+	figure {
 		margin: 20px 0 0;
 	}
 </style>
@@ -22,15 +22,20 @@
         constructor() {
             super();
             this.state = {
-                array8: [
-                ],
+                array8: [],
                 editing8: false,
+                employeesArr8: [
+                    {name: 'Аоля', surname: 'Иванов', salary: 100},
+                    {name: 'Вася', surname: 'Петров', salary: 40},
+                    {name: 'Петя', surname: 'Аидоров', salary: 50},
+                ]
             };
             this.handleChange = this.handleChange.bind(this);
             this.arrPush = this.arrPush.bind(this);
             this.arrRemove = this.arrRemove.bind(this);
             this.arrHandleEdit = this.arrHandleEdit.bind(this);
             this.timeNow = this.timeNow.bind(this);
+            this.sortArrEll = this.sortArrEll.bind(this);
         }
 
         handleChange(event) {
@@ -42,9 +47,9 @@
             });
         }
 
-        timeNow(){
+        timeNow() {
             const now = new Date();
-            return(
+            return (
                 now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds()
             )
         }
@@ -54,60 +59,96 @@
             const arr = this.state.array8.slice();
             const notesElement = {
                 time: this.timeNow(),
-	            text: this.state.temporary8,
+                text: this.state.temporary8,
             };
             arr.push(notesElement);
             this.setState({array8: arr});
         }
 
-        arrRemove(index){
+        arrRemove(index) {
             const arr = this.state.array8.slice();
             arr.splice(index, 1);
             this.setState({array8: arr})
         }
 
-        arrHandleEdit(index){
+        arrHandleEdit(index) {
             this.setState({editing8: index});
         }
 
-        arrEdit(event, index){
+        arrEdit(event, index) {
             const arr = this.state.array8.slice();
             arr[index].text = event.target.value;
             this.setState({array8: arr})
         }
 
+        sortArrEll(key){
+			const sortedArr = this.state.employeesArr8.slice();
+			sortedArr.sort((a, b) => {
+			    if(typeof(a[key])==="number") {
+			        return a[key] - b[key];
+                }
+			    else{
+                    if (a[key] > b[key]){
+                        return 1
+                    }
+                    else if (a[key] < b[key]) {
+                        return -1
+                    }
+                    else {
+                        return 0
+                    }
+				}
+			});
+	        this.setState({employeesArr8: sortedArr});
+        }
+
         render() {
-            const {array8} = this.state;
+            const {employeesArr8} = this.state;
 
             const notes8 = this.state.array8.map((item, index) => {
 
-                return(
+                return (
                     <div key={index}>
-						<div>Заметка {index}</div>
-	                    <div>{item.time}</div>
-	                    {
-	                        this.state.editing8===index?
-	                        <textarea value={item.text}
-                                      onChange={(event) => this.arrEdit(event, index)}
-                            /> :
-                            <div>{item.text}</div>
-	                    }
+                        <div>Заметка {index}</div>
+                        <div>{item.time}</div>
                         {
-                            this.state.editing8===index?
+                            this.state.editing8 === index ?
+                                <textarea value={item.text}
+                                          onChange={(event) => this.arrEdit(event, index)}
+                                /> :
+                                <div>{item.text}</div>
+                        }
+                        {
+                            this.state.editing8 === index ?
                                 <div onClick={() => this.arrHandleEdit(false)}>
                                     Ok
-                                </div>:
+                                </div> :
                                 <div onClick={() => this.arrHandleEdit(index)}>
                                     Edit
                                 </div>
                         }
-	                    <div onClick={() => this.arrRemove(index)}>
-		                    Remove
-	                    </div>
+                        <div onClick={() => this.arrRemove(index)}>
+                            Remove
+                        </div>
                     </div>
                 );
             });
 
+            const employees8 = employeesArr8.map((item, index) => {
+               return(
+                   <tr key={index}>
+	                   <td onClick={() => this.sortArrEll('name')}>
+		                   {item.name}
+	                   </td>
+                       <td onClick={() => this.sortArrEll('surname')}>
+	                       {item.surname}
+                       </td>
+                       <td onClick={() => this.sortArrEll('salary')}>
+	                       {item.salary}
+                       </td>
+                   </tr>
+               );
+            });
 
             return (
                 <figure>
@@ -115,23 +156,33 @@
 
                     <h3>Практика</h3>
                     <h4>
-                        8. Дан текстареа и кнопка. В текстареа пользователь нашего сайта будет вводить свои заметки. После
+                        8. Дан текстареа и кнопка. В текстареа пользователь нашего сайта будет вводить свои заметки.
+                        После
                         нажатия на кнопку введенный текст должен появится под текстареа в виде блока div. Таких заметок
                         может быть много. В каждой заметке должен стоять заголовок (заметка1, заметка2 и так далее),
                         время создания заметки (часы, минуты, секунды), а также должна быть кнопка 'удалить' и кнопка
                         'редактировать'.
                     </h4>
-	                <form onSubmit={this.arrPush}>
+                    <form onSubmit={this.arrPush}>
                         <textarea value={this.state.temporary8}
                                   name="temporary8"
                                   onChange={this.handleChange}
                         />
-                        <br />
+                        <br/>
                         <input type='submit'/>
-	                </form>
-	                <figure>
-		                {notes8}
-	                </figure>
+                    </form>
+                    <figure>
+                        {notes8}
+                    </figure>
+
+                    <h4>9. Дан массив с работниками. У каждого работника есть имя, фамилия, зарплата. Выведите этих
+                        работников на экран в виде таблицы. Сделайте так, чтобы работников можно было посортировать по
+                        любой колонке этот таблицы.</h4>
+	                <table>
+		                <tbody>
+		                    {employees8}
+		                </tbody>
+	                </table>
                 </figure>
             );
         }
