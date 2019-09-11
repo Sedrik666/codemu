@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Задачи на продвинутую работу с формами в React</title>
+	<script src="https://npmcdn.com/react@15.3.0/dist/react.js"></script>
+	<script src="https://npmcdn.com/react-dom@15.3.0/dist/react-dom.js"></script>
+	<script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+	<script src="https://npmcdn.com/jquery@3.1.0/dist/jquery.min.js"></script>
+	<script src="https://npmcdn.com/remarkable@1.6.2/dist/remarkable.min.js"></script>
+</head>
+<body>
+<div id="content"></div>
+<style>
+	figure {
+		margin: 20px 0 0;
+	}
+</style>
+<script type="text/babel">
+    class App extends React.Component {
+
+        constructor() {
+            super();
+            this.state = {
+                array8: [],
+                editing8: false,
+                employeesArr9: [
+                    {name: 'Аоля', surname: 'Иванов', salary: 100},
+                    {name: 'Вася', surname: 'Петров', salary: 40},
+                    {name: 'Петя', surname: 'Аидоров', salary: 50},
+                ],
+                langSelected10: 'eng',
+                choiseLang10: [
+                    {
+                        key: 'eng',
+                        name: 'English',
+                    },
+                    {
+                        key: 'rus',
+                        name: 'Русский',
+                    },
+                ],
+                weekDays10: {
+                    eng: {
+                        days: [
+                            'Sunday',
+                            'Monday',
+                            'Tuesday',
+                            'Wednesday',
+                            'Thursday',
+                            'Friday',
+                            'Saturday'
+                        ]
+                    },
+                    rus: {
+                        days: [
+                            'Понедельник',
+                            'Вторник',
+                            'Среда',
+                            'Четверг',
+                            'Пятница',
+                            'Субота',
+                            'Воскресенье'
+                        ]
+                    }
+                },
+                input11Color: '2px solid red',
+                employeesArr12: [
+                    {name: 'Аоля', surname: 'Иванов', salary: 100, gender: 'man'},
+                    {name: 'Вася', surname: 'Петров', salary: 40, gender: 'woman'},
+                    {name: 'Петя', surname: 'Аидоров', salary: 50, gender: 'man'},
+                ],
+                genders12: [
+                    'man',
+                    'woman'
+                ],
+                employeesArr13: [
+                    {name: 'Оля', surname: 'Иванов', salary: 100},
+                    {name: 'Вася', surname: 'Петров', salary: 40},
+                    {name: 'Петя', surname: 'Аидоров', salary: 50},
+                    {name: 'Ася', surname: 'Иванов', salary: 100},
+                    {name: 'Коля', surname: 'Петров', salary: 40},
+                    {name: 'Вітя', surname: 'Аидоров', salary: 50},
+                    {name: 'Женя', surname: 'Иванов', salary: 100},
+                    {name: 'Дима', surname: 'Петров', salary: 40},
+                    {name: 'Диана', surname: 'Аидоров', salary: 50},
+                    {name: 'Котя', surname: 'Иванов', salary: 100},
+                    {name: 'Вата', surname: 'Петров', salary: 40},
+                    {name: 'Мика', surname: 'Аидоров', salary: 50},
+                    {name: 'Лика', surname: 'Иванов', salary: 1},
+                    {name: 'Толя', surname: 'Петров', salary: 4},
+                    {name: 'Тина', surname: 'Аидоров', salary: 5},
+                    {name: 'Валя', surname: 'Иванов', salary: 10},
+                    {name: 'Ваня', surname: 'Петров', salary: 40},
+                    {name: 'Гоша', surname: 'Аидоров', salary: 5},
+                    {name: 'Ася', surname: 'Иванов', salary: 100},
+                    {name: 'Коля', surname: 'Петров', salary: 40},
+                    {name: 'Вітя', surname: 'Аидоров', salary: 50},
+                    {name: 'Женя', surname: 'Иванов', salary: 100},
+                    {name: 'Дима', surname: 'Петров', salary: 40},
+                    {name: 'Диана', surname: 'Аидоров', salary: 50},
+                    {name: 'Котя', surname: 'Иванов', salary: 100},
+                    {name: 'Вата', surname: 'Петров', salary: 40},
+                    {name: 'Мика', surname: 'Аидоров', salary: 50},
+                    {name: 'Лика', surname: 'Иванов', salary: 1},
+                    {name: 'Толя', surname: 'Петров', salary: 4},
+                    {name: 'Тина', surname: 'Аидоров', salary: 5},
+                    {name: 'Ася', surname: 'Иванов', salary: 100},
+                    {name: 'Коля', surname: 'Петров', salary: 40},
+                    {name: 'Вітя', surname: 'Аидоров', salary: 50},
+                    {name: 'Женя', surname: 'Иванов', salary: 100},
+                    {name: 'Дима', surname: 'Петров', salary: 40},
+                    {name: 'Диана', surname: 'Аидоров', salary: 50},
+                    {name: 'Котя', surname: 'Иванов', salary: 100},
+                    {name: 'Вата', surname: 'Петров', salary: 40},
+                    {name: 'Мика', surname: 'Аидоров', salary: 50},
+                    {name: 'Лика', surname: 'Иванов', salary: 1},
+                    {name: 'Толя', surname: 'Петров', salary: 4},
+                    {name: 'Тина', surname: 'Аидоров', salary: 5},
+                    {name: 'Ася', surname: 'Иванов', salary: 100},
+                    {name: 'Коля', surname: 'Петров', salary: 40},
+                    {name: 'Вітя', surname: 'Аидоров', salary: 50},
+                    {name: 'Женя', surname: 'Иванов', salary: 100},
+                    {name: 'Дима', surname: 'Петров', salary: 40},
+                    {name: 'Диана', surname: 'Аидоров', salary: 50},
+                    {name: 'Котя', surname: 'Иванов', salary: 100},
+                    {name: 'Вата', surname: 'Петров', salary: 40},
+                    {name: 'Мика', surname: 'Аидоров', salary: 50},
+                    {name: 'Лика', surname: 'Иванов', salary: 1},
+                    {name: 'Толя', surname: 'Петров', salary: 4},
+                    {name: 'Тина', surname: 'Аидоров', salary: 5},
+                ],
+                currentPage13: 1,
+                array14: [],
+                currency15: [
+                    {
+                        name: 'rub',
+                        course: 0.015281,
+                    },
+                    {
+                        name: 'uah',
+                        course: 0.04,
+                    },
+                    {
+                        name: 'usd',
+                        course: 1,
+                    },
+                    {
+                        name: 'eur',
+                        course: 1.10466,
+                    },
+                ],
+                firstCurrency15: 1.10466,
+                secondCurrency15: 0.04,
+                array16: [
+                    {
+                        question: 'Вопрос 1',
+                        answers: [
+                            'Ответ1',
+                            'Ответ2',
+                            'Ответ3',
+                            'Ответ4',
+                            'Ответ5',
+                        ],
+                        right: 1, //номер правильного ответа
+                    },
+                    {
+                        question: 'Вопрос 2',
+                        answers: [
+                            'Ответ1',
+                            'Ответ2',
+                            'Ответ3',
+                            'Ответ4',
+                            'Ответ5',
+                        ],
+                        right: 3, //номер правильного ответа
+                    },
+                    {
+                        question: 'Вопрос 3',
+                        answers: [
+                            'Ответ1',
+                            'Ответ2',
+                            'Ответ3',
+                            'Ответ4',
+                            'Ответ5',
+                        ],
+                        right: 5, //номер правильного ответа
+                    },
+                ]
+            };
+            this.handleChange = this.handleChange.bind(this);
+            this.arrPush = this.arrPush.bind(this);
+            this.arrRemove = this.arrRemove.bind(this);
+            this.arrHandleEdit = this.arrHandleEdit.bind(this);
+            this.timeNow = this.timeNow.bind(this);
+            this.sortArrEll = this.sortArrEll.bind(this);
+            this.checkLength = this.checkLength.bind(this);
+            this.toggleChange = this.toggleChange.bind(this);
+            this.handlePage = this.handlePage.bind(this);
+            this.currencyСonverter = this.currencyСonverter.bind(this);
+        }
+
+        handleChange(event) {
+            const target = event.target;
+            const value = target.type === 'checkbox' ? target.checked : target.value;
+            const name = target.name;
+            this.setState({
+                [name]: value,
+            });
+        }
+
+        timeNow() {
+            const now = new Date();
+            return (
+                now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds()
+            )
+        }
+
+        arrPush(event, arr, element) {
+            event.preventDefault();
+            const tempArr = this.state[arr].slice();
+            tempArr.push(element);
+            this.setState({[arr]: tempArr});
+        }
+
+        arrRemove(index) {
+            const arr = this.state.array8.slice();
+            arr.splice(index, 1);
+            this.setState({array8: arr})
+        }
+
+        arrHandleEdit(index) {
+            this.setState({editing8: index});
+        }
+
+        arrEdit(event, index) {
+            const arr = this.state.array8.slice();
+            arr[index].text = event.target.value;
+            this.setState({array8: arr})
+        }
+
+        sortArrEll(key) {
+            const sortedArr = this.state.employeesArr9.slice();
+            sortedArr.sort((a, b) => {
+                if (typeof (a[key]) === "number") {
+                    return a[key] - b[key];
+                } else {
+                    if (a[key] > b[key]) {
+                        return 1
+                    } else if (a[key] < b[key]) {
+                        return -1
+                    } else {
+                        return 0
+                    }
+                }
+            });
+            this.setState({employeesArr9: sortedArr});
+        }
+
+        checkLength(event) {
+            const inputLength = event.target.value.length;
+            const borderColor =
+                (inputLength >= 4 && inputLength <= 9) ?
+                    'green' :
+                    'red';
+            this.setState({input11Color: '2px solid ' + borderColor})
+        }
+
+        toggleChange(element, boolean) {
+            this.setState({[element]: boolean});
+        }
+
+        handlePage(newPage) {
+            this.setState({currentPage13: newPage});
+        }
+
+        currencyСonverter(event, value, firstCurrency, secondCurrency) {
+            event.preventDefault();
+            const tempTotal =
+                firstCurrency > secondCurrency ?
+                    value * firstCurrency / secondCurrency :
+                    value * firstCurrency * secondCurrency;
+            this.setState({total15: tempTotal});
+        }
+
+        render() {
+            const {
+                array8, editing8, temporaryTextarea8,
+                employeesArr9,
+                choiseLang10, weekDays10, langSelected10, selectDay10,
+                input11, input11Color, input11OnFocus,
+                tempGender12, employeesArr12, input12Name, input12Surname, input12Salary, genders12,
+                employeesArr13, currentPage13,
+                input14, array14, selectedCity14,
+                input15, currency15, firstCurrency15, secondCurrency15, total15,
+                array16,
+            } = this.state;
+
+            const notes8 = array8.map((item, index) => {
+                return (
+                    <div key={index}>
+                        <div>Заметка {index}</div>
+                        <div>{item.time}</div>
+                        {
+                            editing8 === index ?
+                                <textarea value={item.text}
+                                          onChange={(event) => this.arrEdit(event, index)}
+                                /> :
+                                <div>{item.text}</div>
+                        }
+                        {
+                            editing8 === index ?
+                                <div onClick={() => this.arrHandleEdit(false)}>
+                                    Ok
+                                </div> :
+                                <div onClick={() => this.arrHandleEdit(index)}>
+                                    Edit
+                                </div>
+                        }
+                        <div onClick={() => this.arrRemove(index)}>
+                            Remove
+                        </div>
+                    </div>
+                );
+            });
+
+            const employees9 = employeesArr9.map((item, index) => {
+                return (
+                    <tr key={index}>
+                        <td onClick={() => this.sortArrEll('name')}>
+                            {item.name}
+                        </td>
+                        <td onClick={() => this.sortArrEll('surname')}>
+                            {item.surname}
+                        </td>
+                        <td onClick={() => this.sortArrEll('salary')}>
+                            {item.salary}
+                        </td>
+                    </tr>
+                );
+            });
+
+            const langOptions10 = choiseLang10.map(item => {
+                return (
+                    <option key={item.key}
+                            value={item.key}
+                    >
+                        {item.name}
+                    </option>
+                );
+            });
+
+            const weekDayOptions10 = weekDays10[langSelected10].days.map((item, index) => {
+                return (
+                    <option key={index}
+                            value={item}>
+                        {item}
+                    </option>
+                );
+            });
+
+            const employers12 = employeesArr12.map((item, index) => {
+                return (
+                    <tr key={index}>
+                        <td>{item.name}</td>
+                        <td>{item.surname}</td>
+                        <td>{item.salary}</td>
+                        <td>{item.gender}</td>
+                    </tr>
+                );
+            });
+
+            const genderOptions12 = genders12.map(item => {
+                return (
+                    <option key={item}
+                            value={item}>
+                        {item}
+                    </option>
+                );
+            });
+
+            const employers13 = employeesArr13.map((item, index) => {
+                const maxElem = 10 * currentPage13;
+                const minElem = maxElem - 10;
+                if (index >= minElem && index < maxElem) {
+                    return (
+                        <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td>{item.name}</td>
+                            <td>{item.surname}</td>
+                            <td>{item.salary}</td>
+                        </tr>
+                    );
+                }
+            });
+            const pagination13Length = Math.ceil(employeesArr13.length / 10);
+            const employers13Pages = new Array(pagination13Length).fill(0).map((item, index) => {
+                return (
+                    <span key={index}
+                          style={{
+                              cursor: 'pointer',
+                              color: currentPage13 === index + 1 ? 'blue' : 'gray',
+                          }}
+                          onClick={() => {
+                              this.handlePage(index + 1)
+                          }}
+                    >
+	                    {index + 1}
+		            </span>
+                );
+            });
+            const cities14 = array14.map((item, index) => {
+                return (
+                    <option key={index}
+                            value={item}>
+                        {item}
+                    </option>
+                );
+            });
+            const currencyOptions = currency15.map(item => {
+                return (
+                    <option key={item.name}
+                            value={item.course}
+                    >
+                        {item.name}
+                    </option>
+                );
+            });
+            const questions16 = array16.map((item, index) => {
+                let questionColor;
+                if(this.state['radio_' + index]===undefined){
+                    questionColor = 'black';
+                }
+                else if(this.state['radio_' + index]===(item.right-1).toString()){
+                    questionColor = 'green';
+                }
+                else{questionColor = 'red';}
+                return(
+                    <div key={index}>
+	                    <p style={{color: questionColor}}>{item.question}</p>
+	                    {
+	                        item.answers.map((radioItem, radioIndex) => {
+								return(
+								    <figure key={radioIndex}>
+                                        <input type='radio'
+                                               name={'radio_' + index}
+                                               value={radioIndex}
+                                               checked={this.state['radio_' + index]===radioIndex.toString()}
+                                               onChange={this.handleChange}
+                                        />
+									    {radioItem}
+								    </figure>
+
+			                    );
+	                        })
+	                    }
+                    </div>
+                );
+            });
+            return (
+                <figure>
+                    <h2>Практика по работе с формами в фреймворке React</h2>
+
+                    <h3>Практика</h3>
+                    <h4>
+                        8. Дан текстареа и кнопка. В текстареа пользователь нашего сайта будет вводить свои заметки.
+                        После
+                        нажатия на кнопку введенный текст должен появится под текстареа в виде блока div. Таких заметок
+                        может быть много. В каждой заметке должен стоять заголовок (заметка1, заметка2 и так далее),
+                        время создания заметки (часы, минуты, секунды), а также должна быть кнопка 'удалить' и кнопка
+                        'редактировать'.
+                    </h4>
+                    <form onSubmit={
+                        (event) => {
+                            const notesElement = {
+                                time: this.timeNow(),
+                                text: temporaryTextarea8,
+                            };
+                            this.arrPush(event, 'array8', notesElement)
+                        }
+                    }
+                    >
+                        <textarea value={temporaryTextarea8}
+                                  name="temporaryTextarea8"
+                                  onChange={this.handleChange}
+                        />
+                        <br/>
+                        <input type='submit'/>
+                    </form>
+                    <figure>
+                        {notes8}
+                    </figure>
+
+                    <h4>9. Дан массив с работниками. У каждого работника есть имя, фамилия, зарплата. Выведите этих
+                        работников на экран в виде таблицы. Сделайте так, чтобы работников можно было посортировать по
+                        любой колонке этот таблицы.</h4>
+                    <table>
+                        <tbody>
+                        {employees9}
+                        </tbody>
+                    </table>
+
+                    <h4>
+                        10.Даны два селекта. С помощью первого селекта можно выбрать язык пользователя (русский или
+                        английский). Если в первом селекте выбран русский язык, то во втором селекте должен появится
+                        список дней недели по-русски. А если в первом селекте выбран английский - то и во втором дни
+                        недели будут по-английски.
+                    </h4>
+                    <select value={langSelected10}
+                            name='langSelected10'
+                            onChange={this.handleChange}
+                    >
+                        {langOptions10}
+                    </select>
+                    <br/>
+                    <select value={selectDay10 || weekDays10[langSelected10].days[0]}
+                            name='selectDay10'
+                            onChange={this.handleChange}>
+                        {weekDayOptions10}
+                    </select>
+
+                    <h4>
+                        11. Дан инпут. В него вводится строка. Сделайте так, чтобы если длина введенной строки от 4 до 9
+                        символов - граница инпута была зеленой, в противном случае - красной. Инпут должен проверять
+                        свое содержимое по мере ввода.
+                    </h4>
+                    <input type='text'
+                           name='input11'
+                           value={input11 || ''}
+                           onChange={
+                               (event) => {
+                                   this.handleChange(event);
+                                   this.checkLength(event);
+                               }
+                           }
+                           onFocus={
+                               () => {
+                                   this.toggleChange('input11OnFocus', true)
+                               }
+                           }
+                           onBlur={
+                               () => {
+                                   this.toggleChange('input11OnFocus', false)
+                               }
+                           }
+                           style={{border: input11OnFocus ? input11Color : ''}}
+                    />
+
+                    <h4>
+                        12. Дан массив с работниками. У каждого работника есть имя, фамилия, зарплата, пол. Выведите
+                        этих
+                        работников на экран в виде таблицы. Под таблице сделайте форму, с помощью которой в таблицу
+                        можно будет добавить нового работника. В этой форме имя, фамилия, зарплата будут инпутами, а пол
+                        - селектом, в котором можно будет выбрать один из двух вариантов.
+                    </h4>
+                    <table>
+                        <tbody>
+                        {employers12}
+                        </tbody>
+                    </table>
+                    <form onSubmit={
+                        (event) => {
+                            const newEmployee = {
+                                name: input12Name || '',
+                                surname: input12Surname || '',
+                                salary: input12Salary || '',
+                                gender: tempGender12 || 'man',
+                            };
+                            this.arrPush(event, 'employeesArr12', newEmployee)
+                        }
+                    }
+                    >
+                        <input type='text'
+                               name='input12Name'
+                               value={input12Name || ''}
+                               onChange={this.handleChange}
+                        />
+                        <input type='text'
+                               name='input12Surname'
+                               value={input12Surname || ''}
+                               onChange={this.handleChange}
+                        />
+                        <input type='text'
+                               name='input12Salary'
+                               value={input12Salary || ''}
+                               onChange={this.handleChange}
+                        />
+                        <select value={tempGender12 || 'man'}
+                                name='tempGender12'
+                                onChange={this.handleChange}
+                        >
+                            {genderOptions12}
+                        </select>
+                        <input type='submit'
+                               value='Send'
+                        />
+                    </form>
+
+                    <h4>
+                        13. Дан массив с работниками. У каждого работника есть имя, фамилия, зарплата. Выведите этих
+                        работников на экран в виде таблицы. Причем выведите только первых 10 работников, а над таблицей
+                        сделайте ссылки: 1, 2, 3, 4 и так далее. По нажатию на каждую ссылку в таблице будет
+                        отображаться заданный десяток работников. Ссылки над таблицей должны сгенерироваться
+                        автоматически исходя из количества работников.
+                    </h4>
+                    <table>
+                        <tbody>
+                        {employers13}
+                        </tbody>
+                    </table>
+                    <p style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        color: 'darkGrey',
+                    }}>
+                        {employers13Pages}
+                    </p>
+
+                    <h4>
+                        14. Дан селект. Изначально он пустой. Дан инпут и кнопка. В этот инпут вводится название города.
+                        По
+                        нажатию на кнопку этот город должен попасть в селект. Пользователь нашего скрипта добавляет
+                        несколько городов в селект, затем выбирает один из добавленных городов - и этот город должен
+                        отобразиться на экране в каком-нибудь абзаце.
+                    </h4>
+                    <select value={selectedCity14 || ''}
+                            name={'selectedCity14'}
+                            onChange={this.handleChange}>
+                        {cities14}
+                    </select>
+                    <form onSubmit={
+                        (event) => {
+                            this.arrPush(event, 'array14', input14)
+                        }
+                    }
+                    >
+                        <input type='text'
+                               name={'input14'}
+                               value={input14 || ''}
+                               onChange={this.handleChange}
+                        />
+                        <input type='submit'/>
+                    </form>
+                    <p>Selected city: {selectedCity14 || ''}</p>
+
+                    <h4>
+                        15. Реализуйте калькулятор валют. Как он работает: дан инпут, в который вводится сумма и даны
+                        два
+                        селекта - в первом выбирается из какой валюты, а во втором - в какую. Дана также кнопка. По
+                        нажатию на эту кнопку в абзац должна вывестись сумма в выбранной валюте.
+                    </h4>
+                    <form onSubmit={(event) => {
+                        this.currencyСonverter(event, input15, firstCurrency15, secondCurrency15)
+                    }}>
+                        <input type='text'
+                               name='input15'
+                               value={input15 || ''}
+                               onChange={this.handleChange}
+                        />
+                        <select value={firstCurrency15}
+                                name='firstCurrency15'
+                                onChange={this.handleChange}
+                        >
+                            {currencyOptions}
+                        </select>
+                        <select value={secondCurrency15}
+                                name='secondCurrency15'
+                                onChange={this.handleChange}
+                        >
+                            {currencyOptions}
+
+                        </select>
+                        <input type='submit'/>
+                    </form>
+                    <p>Total sum: {total15}</p>
+
+                    <h4>
+	                    16. Реализуйте текст с вопросами и вариантами ответов. Каждый вопрос должен быть в своем абзаце, а
+                        под ним - 5 радиокнопочек, с помощью которых можно выбрать один из ответов. Если ответ
+                        правильный - вопрос должен покраситься в зеленый цвет, а если неправильный - в красный. ←
+                        Предыдущая страница
+                    </h4>
+	                {questions16}
+                </figure>
+            );
+        }
+    }
+
+    ReactDOM.render(
+        <App/>,
+        document.getElementById("content")
+    );
+
+</script>
+</body>
+</html>
