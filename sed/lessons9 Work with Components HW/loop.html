@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Задачи на работу с компонентами в React</title>
+	<script src="https://npmcdn.com/react@15.3.0/dist/react.js"></script>
+	<script src="https://npmcdn.com/react-dom@15.3.0/dist/react-dom.js"></script>
+	<script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+	<script src="https://npmcdn.com/jquery@3.1.0/dist/jquery.min.js"></script>
+	<script src="https://npmcdn.com/remarkable@1.6.2/dist/remarkable.min.js"></script>
+</head>
+<body>
+<div id="content"></div>
+<script type="text/babel">
+    class User extends React.Component{
+        constructor(){
+            super();
+        }
+        render() {
+            return (
+                <p>
+                    <span style={{marginRight: '20px'}}>{this.props.name}</span>
+                    <span style={{marginRight: '20px'}}>{this.props.surname}</span>
+                    <span style={{marginRight: '20px'}}>{this.props.age}</span>
+                </p>
+            );
+        }
+    }
+
+    class App extends React.Component {
+        constructor() {
+            super();
+            this.state = {
+                users: [
+                    {name: 'Оля', surname: 'Иванов', age: 100},
+                    {name: 'Вася', surname: 'Петров', age: 40},
+                    {name: 'Петя', surname: 'Аидоров', age: 50},
+                    {name: 'Ася', surname: 'Иванов', age: 100},
+                    {name: 'Коля', surname: 'Петров', age: 40},
+                    {name: 'Вітя', surname: 'Аидоров', age: 50}
+                ]
+            };
+        }
+
+        render() {
+            const users = this.state.users.map((item, index) => {
+                return(
+                    <User key={index}
+                          name={item.name}
+                          surname={item.surname}
+                          age={item.age}
+                    />
+                );
+            });
+
+            return (
+                <figure>
+                    <h4>
+                        1. Пусть в стейте хранится массив с юзерами. У каждого юзера есть имя, фамилия и возраст. Выведите
+                        всех юзеров на экран с помощью цикла. Сделайте так, чтобы отображением юзера на экран занимался
+                        отдельный компонент.
+                    </h4>
+                    {users}
+                </figure>
+            );
+        }
+    }
+
+    ReactDOM.render(
+        <App/>,
+        document.getElementById("content")
+    );
+
+</script>
+
+</body>
+</html>
