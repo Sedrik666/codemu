@@ -52,7 +52,7 @@
         }
 
         render() {
-            const {user1, user2, users} = this.state;
+            const {user1, user2, user3, users} = this.state;
             const usersList = users.map((item, index) => {
                 return(
                   <User key={index}
@@ -69,6 +69,7 @@
                     <User name={user3.name} surname={user3.surname}/>
 
                     <h4>Компоненты в цикле</h4>
+	                <figure>{usersList}</figure>
                 </figure>
             );
         }
