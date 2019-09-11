@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Работа с компонентами в фреймворке React</title>
+    <script src="https://npmcdn.com/react@15.3.0/dist/react.js"></script>
+    <script src="https://npmcdn.com/react-dom@15.3.0/dist/react-dom.js"></script>
+    <script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+    <script src="https://npmcdn.com/jquery@3.1.0/dist/jquery.min.js"></script>
+    <script src="https://npmcdn.com/remarkable@1.6.2/dist/remarkable.min.js"></script>
+</head>
+<body>
+<div id="content"></div>
+<script type="text/babel">
+    class User extends React.Component {
+        constructor() {
+            super();
+            this.state = {
+
+            };
+        }
+
+        render() {
+            return(
+            <figure>
+                <h4>Пропсы</h4>
+
+                <p>
+                    имя: {this.props.name}
+                </p>
+                <p>
+                    фамилия: {this.props.name}
+                </p>
+            </figure>
+            );
+        }
+    }
+
+    class App extends React.Component {
+        constructor() {
+            super();
+            this.state = {
+                user1: {name: 'Коля', surname: 'Иванов'},
+                user2: {name: 'Вася', surname: 'Петров'},
+                user3: {name: 'Петя', surname: 'Сидоров'},
+                users: [
+                    {name: 'Коля', surname: 'Иванов'},
+                    {name: 'Вася', surname: 'Петров'},
+                    {name: 'Петя', surname: 'Сидоров'},
+                ]
+            };
+        }
+
+        render() {
+            const {user1, user2, user3, users} = this.state;
+            const usersList = users.map((item, index) => {
+                return(
+                  <User key={index}
+                        name={item.name}
+                        surname={item.surname}
+                  />
+                );
+            });
+            return (
+                <figure>
+                    <h4>Преимущества компонентов со стейтом</h4>
+                    <User name={user1.name} surname={user1.surname}/>
+                    <User name={user2.name} surname={user2.surname}/>
+                    <User name={user3.name} surname={user3.surname}/>
+
+                    <h4>Компоненты в цикле</h4>
+	                <figure>{usersList}</figure>
+                </figure>
+            );
+        }
+    }
+
+    ReactDOM.render(
+        <App/>,
+        document.getElementById("content")
+    );
+
+</script>
+
+</body>
+</html>
