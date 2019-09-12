@@ -74,6 +74,37 @@
         }
     }
 
+    class ProductAdd extends React.Component {
+        render() {
+            const element= {
+                name: this.props.name,
+                price: this.props.price,
+                quantity: this.props.quantity,
+            };
+            return(
+                <form onSubmit={this.props.addProduct.bind(false, element, 'products7')}>
+                    <input type='text'
+                           name={this.props.tempName}
+                           value={this.props.name || ''}
+                           onChange={this.props.handleChange.bind(false)}
+                    />
+                    <input type='text'
+                           name={this.props.tempPrice}
+                           value={this.props.price || ''}
+                           onChange={this.props.handleChange.bind(false)}
+                    />
+                    <input type='text'
+                           name={this.props.tempQuantity}
+                           value={this.props.quantity || ''}
+                           onChange={this.props.handleChange.bind(false)}
+                    />
+                    <input type='submit'
+                    />
+                </form>
+            );
+        };
+    }
+
     class App extends React.Component {
         constructor() {
             super();
@@ -105,6 +136,13 @@
         deleteElement(index, arr) {
             const tempArr = this.state[arr].slice();
             tempArr.splice(index, 1);
+            this.setState({[arr]: tempArr})
+        }
+
+        addElement(element, arr, event) {
+            event.preventDefault();
+            const tempArr = this.state[arr].slice();
+            tempArr.push(element);
             this.setState({[arr]: tempArr})
         }
 
@@ -229,11 +267,24 @@
                         Пусть отображением продукта на экран занимается отдельный компонент. Сделайте так, чтобы рядом с
                         каждым продуктом была кнопка 'удалить', с помощью которой можно удалить этот продукт из таблицы.
                     </h4>
+
+	                <h4>8. Модифицируйте предыдущую задачу так, чтобы появился еще и один отдельный компонент для добавления нового продукта в таблицу.</h4>
+
+
                     <table>
                         <tbody>
                         {productsList7}
                         </tbody>
                     </table>
+                    <ProductAdd name={this.state.tempProductName}
+                                tempName='tempProductName'
+                                price={this.state.tempProductPrice}
+                                tempPrice='tempProductPrice'
+                                quantity={this.state.tempProductQuantity}
+                                tempQuantity='tempProductQuantity'
+                                handleChange={this.handleChange.bind(this)}
+                                addProduct={this.addElement.bind(this)}
+                    />
 
                 </figure>
             );
