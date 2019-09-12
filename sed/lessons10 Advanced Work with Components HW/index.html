@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Задачи на продвинутую работу с компонентами в React</title>
+	<script src="https://npmcdn.com/react@15.3.0/dist/react.js"></script>
+	<script src="https://npmcdn.com/react-dom@15.3.0/dist/react-dom.js"></script>
+	<script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+	<script src="https://npmcdn.com/jquery@3.1.0/dist/jquery.min.js"></script>
+	<script src="https://npmcdn.com/remarkable@1.6.2/dist/remarkable.min.js"></script>
+</head>
+<body>
+<div id="content"></div>
+<script type="text/babel">
+    class User extends React.Component {
+        render() {
+            return (
+                <tr>
+                    <td>{this.props.name}</td>
+                    <td>{this.props.surname}</td>
+                    <td>{this.props.age}</td>
+                    <td onClick={this.props.showMessage.bind(false, this.props.name, this.props.number)}>
+                        link
+                    </td>
+                    <td onClick={this.props.deleteElement.bind(false, this.props.number, 'users1')}>
+                        remove
+                    </td>
+                </tr>
+            );
+        }
+    }
+
+    class Bands extends React.Component {
+        render() {
+            return (
+                <li>
+                    {
+                        this.props.name
+                    }
+                    {
+                        (this.props.editable === this.props.index) ?
+                            <input type='text'
+                                   name='temp'
+                                   value={this.props.temp || this.props.name}
+                                   onChange={this.props.handleChange.bind(false)}
+                                   onBlur={this.props.changeName.bind(false, this.props.index)}
+                                   style={{marginLeft: '10px'}}
+                            /> :
+                            <span onClick={this.props.toggleEdit.bind(false, this.props.index)}
+                                  style={{marginLeft: '10px'}}
+                            >
+		                    Edit
+	                    </span>
+                    }
+
+                </li>
+            );
+        }
+    }
+
+    class Product extends React.Component {
+        render() {
+            return (
+                <tr>
+                    <td>{this.props.name}</td>
+                    <td>{this.props.price}</td>
+                    <td>{this.props.quantity}</td>
+                    <td>{this.props.price * this.props.quantity}</td>
+                    <td onClick={this.props.deleteElement.bind(false, this.props.number, 'products7')}>
+                        Remove
+                    </td>
+                </tr>
+            );
+        }
+    }
+
+    class App extends React.Component {
+        constructor() {
+            super();
+            this.state = {
+                users1: [
+                    {name: 'Коля', surname: 'Иванов', age: 12},
+                    {name: 'Вася', surname: 'Петров', age: 23},
+                    {name: 'Петя', surname: 'Сидоров', age: 54},
+                ],
+                array6: [
+                    'Epica',
+                    'Evanescence',
+                    'Lacuna Coil',
+                    'Nightwish'
+                ],
+                products7: [
+                    {name: 'Snickers', price: 20, quantity: 3},
+                    {name: 'Curtis', price: 65, quantity: 1},
+                    {name: 'Beer', price: 25, quantity: 5},
+                    {name: 'Bread', price: 15, quantity: 2},
+                ],
+            };
+        }
+
+        showMessage(message, number) {
+            alert(message + ' Number: ' + number);
+        }
+
+        deleteElement(index, arr) {
+            const tempArr = this.state[arr].slice();
+            tempArr.splice(index, 1);
+            this.setState({[arr]: tempArr})
+        }
+
+        toggleEdit(number) {
+            this.setState({
+                editable: number
+            })
+        }
+
+        handleChange(event) {
+            const target = event.target;
+            const value = target.type === 'checkbox' ? target.checked : target.value;
+            const name = target.name;
+            this.setState({
+                [name]: value,
+            });
+        }
+
+        changeName(index) {
+            const tempArr = this.state.array6.slice();
+            tempArr[index] = this.state.temp;
+            this.setState({
+                array6: tempArr,
+                editable: false,
+                temp: undefined
+            });
+        }
+
+        render() {
+            const {users1, array6, products7} = this.state;
+            const table1 = users1.map((user, index) => {
+                return (
+                    <User key={index}
+                          name={user.name}
+                          surname={user.surname}
+                          age={user.age}
+                          number={index}
+                          showMessage={this.showMessage.bind(this)}
+                          deleteElement={this.deleteElement.bind(this)}
+                    />
+                );
+            });
+            const list6 = array6.map((item, index) => {
+                return (
+                    <Bands key={index}
+                           name={item}
+                           index={index}
+                           toggleEdit={this.toggleEdit.bind(this)}
+                           handleChange={this.handleChange.bind(this)}
+                           changeName={this.changeName.bind(this)}
+                           temp={this.state.temp}
+                           editable={this.state.editable}
+                    />
+                );
+            });
+            const productsList7 = products7.map((product, index) => {
+                return (
+                    <Product key={index}
+                             number={index}
+                             name={product.name}
+                             price={product.price}
+                             quantity={product.quantity}
+                             deleteElement={this.deleteElement.bind(this)}
+                    />
+                );
+            });
+
+            return (
+                <figure>
+                    <h3>На методы</h3>
+                    <h4>
+                        1. Пусть в стейте хранится массив с юзерами. У каждого юзера есть имя, фамилия и возраст.
+                        Выведите всех юзеров на экран в виде таблицы. Пусть отображением юзера на экран занимается
+                        отдельный компонент.
+                    </h4>
+                    <table>
+                        <tbody>
+                        {table1}
+                        </tbody>
+                    </table>
+
+                    <h4>
+                        2. Модифицируйте предыдущую задачу. Пусть у компонента-родителя есть метод showMessage, который
+                        алертом выводит '!'. Передайте этот метод в компонент-потомок. В таблице с юзерами сделайте еще
+                        одну колонку со ссылками. Привяжите к клику по этим ссылкам переданный метод.
+                    </h4>
+
+                    <h4>
+                        3. Модифицируйте предыдущую задачу. Пусть теперь showMessage параметром принимает строку и
+                        выводит ее на экран. Сделайте так, чтобы по клику на ссылку выводилось имя соответствующего
+                        юзера.
+                    </h4>
+
+                    <h4>
+                        4. Модифицируйте предыдущую задачу. Пусть теперь showMessage параметром принимает число и
+                        выводит его на экран. Сделайте так, чтобы по клику на ссылку на экран выводился номер юзера в
+                        массиве юзеров.
+                    </h4>
+
+                    <h4>
+                        5. Модифицируйте предыдущую задачу. Поменяйте showMessage на deleteUser и сделайте так, чтобы по
+                        клику на ссылку юзер удалялся из таблицы.
+                    </h4>
+
+                    <h3>На редактирование</h3>
+                    <h4>
+                        6. Дан массив. Выведите его элементы в виде списка ul. Сделайте так, чтобы элементы массива
+                        выводились в отдельном компоненте. Рядом с текстом li сделайте ссылку 'редактировать'. По
+                        нажатию на эту ссылку она должна, а взамен должен появиться инпут, с помощью которого можно
+                        будет поредактировать текст li. По потери фокуса из инпута он должен исчезнуть, а взамен должна
+                        вернуться ссылка 'редактировать'.
+                    </h4>
+                    <ul>
+                        {list6}
+                    </ul>
+
+                    <h3>Практика</h3>
+                    <h4>
+                        7. Пусть в стейте хранится массив с продуктами. У каждого продукта есть название, цена и
+                        количество. Выведите все продукты на экран в виде таблицы. Сделайте так, чтобы в таблице была
+                        колонка, в которой выводится полная стоимость продукта (цена умножить на количество).
+                        Пусть отображением продукта на экран занимается отдельный компонент. Сделайте так, чтобы рядом с
+                        каждым продуктом была кнопка 'удалить', с помощью которой можно удалить этот продукт из таблицы.
+                    </h4>
+                    <table>
+                        <tbody>
+                        {productsList7}
+                        </tbody>
+                    </table>
+
+                </figure>
+            );
+        }
+    }
+
+    ReactDOM.render(
+        <App/>,
+        document.getElementById("content")
+    );
+
+</script>
+
+</body>
+</html>
