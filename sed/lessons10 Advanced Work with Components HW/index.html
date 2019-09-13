@@ -69,6 +69,12 @@
                     <td onClick={this.props.deleteElement.bind(false, this.props.number, 'products7')}>
                         Remove
                     </td>
+	                <td>
+		                <input type='checkbox'
+		                       checked={this.props.check === undefined ? true : this.props.check}
+		                       onChange={this.props.handleChange.bind(false, event, 'products7', this.props.number)}
+		                />
+	                </td>
                 </tr>
             );
         }
@@ -76,12 +82,12 @@
 
     class ProductAdd extends React.Component {
         render() {
-            const element= {
+            const element = {
                 name: this.props.name,
                 price: this.props.price,
                 quantity: this.props.quantity,
             };
-            return(
+            return (
                 <form onSubmit={this.props.addProduct.bind(false, element, 'products7')}>
                     <input type='text'
                            name={this.props.tempName}
@@ -103,6 +109,24 @@
                 </form>
             );
         };
+    }
+
+    class PriceSum extends React.Component {
+        render() {
+            const allPrice = this.props.products.reduce((sum, current) => {
+	            return (
+	                current.checked===false?
+                    sum:
+	                sum + (current.price * current.quantity)
+
+	            );
+            }, 0);
+            return (
+                <div>
+                    Общая сумма заказа: {allPrice}
+                </div>
+            );
+        }
     }
 
     class App extends React.Component {
@@ -152,13 +176,20 @@
             })
         }
 
-        handleChange(event) {
+        handleChange(event, arr, index) {
             const target = event.target;
             const value = target.type === 'checkbox' ? target.checked : target.value;
             const name = target.name;
-            this.setState({
-                [name]: value,
-            });
+            if(arr){
+                const tempArr = this.state[arr].slice();
+                tempArr[index].checked = value;
+                this.setState({[arr]: tempArr});
+            }
+			else{
+                this.setState({
+                    [name]: value,
+                });
+            }
         }
 
         changeName(index) {
@@ -205,6 +236,8 @@
                              name={product.name}
                              price={product.price}
                              quantity={product.quantity}
+                             check={product.checked}
+                             handleChange={this.handleChange.bind(this)}
                              deleteElement={this.deleteElement.bind(this)}
                     />
                 );
@@ -268,8 +301,19 @@
                         каждым продуктом была кнопка 'удалить', с помощью которой можно удалить этот продукт из таблицы.
                     </h4>
 
-	                <h4>8. Модифицируйте предыдущую задачу так, чтобы появился еще и один отдельный компонент для добавления нового продукта в таблицу.</h4>
+                    <h4>8. Модифицируйте предыдущую задачу так, чтобы появился еще и один отдельный компонент для
+                        добавления нового продукта в таблицу.</h4>
 
+                    <h4>
+                        9. Модифицируйте предыдущую задачу так, чтобы под таблицей появился еще и один отдельный
+                        компонент, в котором будет выведена полная стоимость всех продуктов.
+                    </h4>
+
+                    <h4>
+                        10. Модифицируйте предыдущую задачу так, чтобы в таблице появилась еще одна колонка, в которой
+                        будут находиться чекбоксы. Изначально эти чекбоксы отмечены. Сделайте так, чтобы полная
+                        стоимость всех продуктов выводилась только для тех продуктов, у которых чекбокс отмечен.
+                    </h4>
 
                     <table>
                         <tbody>
@@ -285,7 +329,7 @@
                                 handleChange={this.handleChange.bind(this)}
                                 addProduct={this.addElement.bind(this)}
                     />
-
+                    <PriceSum products={this.state.products7}/>
                 </figure>
             );
         }
