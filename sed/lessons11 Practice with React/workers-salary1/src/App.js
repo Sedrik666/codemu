@@ -1,10 +1,10 @@
 import React from 'react';
-import WorkersSalary from "./WorkersSalary";
+import WorkersInfo from "./WorkersInfo";
 
 function App() {
   return (
     <figure>
-      <WorkersSalary/>
+      <WorkersInfo/>
     </figure>
   );
 }
