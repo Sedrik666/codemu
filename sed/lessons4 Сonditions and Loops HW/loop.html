@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Состояние state и события в React HW</title>
+    <script src="https://npmcdn.com/react@15.3.0/dist/react.js"></script>
+    <script src="https://npmcdn.com/react-dom@15.3.0/dist/react-dom.js"></script>
+    <script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+    <script src="https://npmcdn.com/jquery@3.1.0/dist/jquery.min.js"></script>
+    <script src="https://npmcdn.com/remarkable@1.6.2/dist/remarkable.min.js"></script>
+</head>
+<body>
+<div id="content"></div>
+<script type="text/babel">
+    class App extends React.Component{
+        constructor(){
+            super();
+            //Запишем данные в стейт:
+            this.state = {
+                show: false,
+                show2: false,
+                name: 'Иван', age: "25",
+                arr: ['Коля', 'Вася', 'Петя'],
+                hrefs: [
+                		{href: '1.html', text: 'ссылка 1'},
+                		{href: '2.html', text: 'ссылка 2'},
+                		{href: '3.html', text: 'ссылка 3'},
+                	]
+            };
+        }
+
+        Press1(){
+            this.setState({show2: true});
+        }
+        Press2(){
+            this.setState({show2: !this.state.show2});
+        }
+
+
+        render(){
+            let message;
+            if (this.state.show2){
+               message  = <p>имя: {this.state.name}, возраст: {this.state.age}</p>;
+            }
+            let list = this.state.arr.map((item, index)=>{
+                return(
+                    <li key={index}>{item}</li>
+                );
+            });
+            let hrefs = this.state.hrefs.map((item, index) => {
+               return(
+                   <li key={index}>
+                    <a href={item.href}>item.text</a>
+                   </li>
+               );
+            });
+
+
+
+            return(
+                <div>
+                    <h1>Состояние state и события в React HW</h1>
+                    <br />
+                    <p>{this.state.show ? 'Привет' : 'Пока'}, {this.state.name}!</p>
+
+                    <br />
+                    <button onClick={this.Press1.bind(this)}>Показать</button>
+                    <br />
+                    <button onClick={this.Press2.bind(this)}>{this.state.show2 ? 'Скрыть' : 'Показать'}</button>
+                    <br />
+                    <p>{message}</p>
+                    <br />
+                    <ul>{list}</ul>
+                    <br />
+                    <ul>{hrefs}</ul>
+                </div>
+            );
+        }
+    }
+
+    ReactDOM.render(
+        <App/>,
+        document.getElementById("content")
+    );
+
+</script>
+
+</body>
+</html>

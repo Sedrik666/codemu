@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Условия и циклы</title>
+    <script src="https://npmcdn.com/react@15.3.0/dist/react.js"></script>
+    <script src="https://npmcdn.com/react-dom@15.3.0/dist/react-dom.js"></script>
+    <script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+    <script src="https://npmcdn.com/jquery@3.1.0/dist/jquery.min.js"></script>
+    <script src="https://npmcdn.com/remarkable@1.6.2/dist/remarkable.min.js"></script>
+</head>
+<body>
+<div id="content"></div>
+<script type="text/babel">
+    class App extends React.Component{
+        constructor(){
+            super();
+            this.state = {hello: true, show:true, items: [1, 2, 3, 4, 5], showarr: false, array: ''};
+        }
+
+        changeText(){
+            if(this.state.hello){
+                this.setState({hello: false});
+            }
+
+        }
+
+        changeState1(){
+          if(this.state.hello){
+             this.setState({hello: false});
+          }
+          else{
+            this.setState({hello: true});
+          }
+        }
+
+        changeState2(){
+          this.setState({hello: !this.state.hello});
+        }
+
+        toggleText(){
+            this.setState({show: !this.state.show});
+        }
+
+        showList(){
+            const list = this.state.items.map((item, index) => {
+                return(
+                   <li key = {index}>{item}</li>
+                );
+            });
+            this.setState({array: <ul>{list}</ul>});
+        }
+
+        render(){
+            let message;
+            if (this.state.show){
+               message  = <p>Привет</p>;
+            }
+
+            const list = this.state.items.map((item, index) => {
+                return(
+                    <li key={index}>{item}</li>
+                );
+            });
+
+
+            return(
+                <div>
+                    <h1>Работа с условиями if и циклами в фреймворке React</h1>
+                    <br />
+                    <h3>Сокращенный if</h3>
+                    {this.state.hello ? 'Привет' : 'Пока'}
+                    <br />
+                    <br />
+                    <button onClick={this.changeText.bind(this)}>Жмять</button>
+                    <br />
+                    <button onClick={this.changeState1.bind(this)}>Жмять2</button>
+                    <br />
+                    <button onClick={this.changeState2.bind(this)}>Жмять3</button>
+                    <h3>Сокрытие и показ элемента по нажатию на кнопку</h3>
+                    <div className="hello">{message}</div>
+                    <br />
+                    <button onClick={this.toggleText.bind(this)}>Скрыть/Показать текст</button>
+                    <br />
+                    <h3>Стейты и циклы</h3>
+                    <ul>{list}</ul>
+                    <br/>
+                    <h3>Стейты, циклы и события</h3>
+                    {this.state.array}
+                    <br/>
+                    <button onClick={this.showList.bind(this)}>Показать список</button>
+
+
+                </div>
+            );
+        }
+    }
+
+    ReactDOM.render(
+        <App/>,
+        document.getElementById("content")
+    );
+
+</script>
+
+</body>
+</html>

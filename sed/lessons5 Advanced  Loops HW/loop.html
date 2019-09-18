@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Условия и циклы</title>
+    <script src="https://npmcdn.com/react@15.3.0/dist/react.js"></script>
+    <script src="https://npmcdn.com/react-dom@15.3.0/dist/react-dom.js"></script>
+    <script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+    <script src="https://npmcdn.com/jquery@3.1.0/dist/jquery.min.js"></script>
+    <script src="https://npmcdn.com/remarkable@1.6.2/dist/remarkable.min.js"></script>
+</head>
+<body>
+<div id="content"></div>
+<script type="text/babel">
+    class App extends React.Component{
+        constructor(){
+            super();
+            this.state = {arr: ['Коля', 'Вася', 'Петя', 'Иван', 'Дима']}
+        }
+
+        addItem(){
+            this.state.arr.push('Пункт');
+            this.setState({arr: this.state.arr});
+        }
+
+        removeItem(){
+            this.state.arr.splice(-1, 1);
+            this.setState({arr: this.state.arr});
+        }
+        removeThis(n){
+            this.state.arr.splice(n, 1);
+            this.setState({arr: this.state.arr});
+        }
+
+
+
+        render(){
+
+            let array;
+            array = this.state.arr.map((item, index) => {
+                return(
+                    <li key={index}>
+                        {item}
+                        <span onClick={this.removeThis.bind(this, {index})} style={{color: "red", cursor: "pointer"}}> ×</span>
+                    </li>
+                    );
+            });
+
+           return(
+                <div>
+                    <h1>Работа с условиями if и циклами в фреймворке React HW</h1>
+                    <ul>{array}</ul>
+                    <button onClick={this.addItem.bind(this)}>Добавить</button>
+                    <button onClick={this.removeItem.bind(this)}>Удалить</button>
+                </div>
+            );
+        }
+    }
+
+    ReactDOM.render(
+        <App/>,
+        document.getElementById("content")
+    );
+
+</script>
+
+</body>
+</html>

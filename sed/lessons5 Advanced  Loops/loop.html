@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Продвинутая работа с циклами в фреймворке React</title>
+    <script src="https://npmcdn.com/react@15.3.0/dist/react.js"></script>
+    <script src="https://npmcdn.com/react-dom@15.3.0/dist/react-dom.js"></script>
+    <script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+    <script src="https://npmcdn.com/jquery@3.1.0/dist/jquery.min.js"></script>
+    <script src="https://npmcdn.com/remarkable@1.6.2/dist/remarkable.min.js"></script>
+</head>
+<body>
+<div id="content"></div>
+<script type="text/babel">
+    class App extends React.Component{
+        constructor(){
+            super();
+            this.state = {items: [1, 2, 3, 4, 5]};
+        }
+
+        addItem(){
+            this.state.items.push('пункт');  //изменяем стейт напрямую
+            this.setState({items: this.state.items}); //заставляем изменения примениться
+
+        }
+
+        deleteItem(){
+            this.setState({items: this.state.items.slice(1)});
+        }
+
+        deleteThirdItem(){
+    	    this.state.items.splice(3, 1); //тут 3 - номер элемента для удаления
+    	    this.setState({items: this.state.items});
+        }
+
+        deleteDefinite(num){
+            this.state.items.splice(num, 1);
+            this.setState({items: this.state.items});
+        }
+
+        render(){
+            let list = this.state.items.map((item, index) => {
+               return(
+                   <li key={index}>
+                       {item}
+                       <button onClick={this.deleteDefinite.bind(this, index)}>×</button>
+                   </li>);
+            });
+
+            return(
+                <div>
+                    <h1>Продвинутая работа с циклами в фреймворке React</h1>
+                    <br />
+                    <ul>{list}</ul>
+                    <br />
+                    <button onClick={this.addItem.bind(this)}>Добавить пункт в список</button>
+                    <br />
+                    <button onClick={this.deleteItem.bind(this)}>Удалить первый елемент</button>
+                    <br />
+                    <button onClick={this.deleteThirdItem.bind(this)}>Удалить 3тий елемент</button>
+                    <br />
+                    <button onClick={this.deleteDefinite.bind(this, 2)}>Удалить определенный елемент</button>
+                </div>
+            );
+        }
+    }
+
+    ReactDOM.render(
+        <App/>,
+        document.getElementById("content")
+    );
+
+</script>
+
+</body>
+</html>
