@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Состояние state и события в React HW</title>
+    <script src="https://npmcdn.com/react@15.3.0/dist/react.js"></script>
+    <script src="https://npmcdn.com/react-dom@15.3.0/dist/react-dom.js"></script>
+    <script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+    <script src="https://npmcdn.com/jquery@3.1.0/dist/jquery.min.js"></script>
+    <script src="https://npmcdn.com/remarkable@1.6.2/dist/remarkable.min.js"></script>
+</head>
+<body>
+<div id="content"></div>
+
+<script type="text/babel">
+    class State extends React.Component{
+        constructor(){
+            super();
+            this.state = {name: 'Иван', age: 25};
+            this.setName = this.setName.bind(this);
+        }
+        showMessage(){
+            alert("hello")
+        }
+        showName(){
+            alert(this.state.name);
+
+        }
+        setName(){
+            this.setState({name: 'Коля'})
+        }
+
+
+        render(){
+            return(
+                <div>
+                    <h1>Homework State and Events</h1>
+                    <div>имя: {this.state.name}, возраст: {this.state.age}</div>
+                    <p onClick={this.showMessage}>Жмать</p>
+                    <p onClick={this.showName.bind(this)}>Жмать2</p>
+                    <p onClick={this.setName}>Иван станет Коля</p>
+                </div>
+            );
+        }
+    }
+
+    ReactDOM.render(
+      <State />,
+      document.getElementById("content")
+    );
+
+
+</script>
+
+</body>
+</html>

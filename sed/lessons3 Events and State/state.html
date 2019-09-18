@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Состояние state и события в React</title>
+    <script src="https://npmcdn.com/react@15.3.0/dist/react.js"></script>
+    <script src="https://npmcdn.com/react-dom@15.3.0/dist/react-dom.js"></script>
+    <script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+    <script src="https://npmcdn.com/jquery@3.1.0/dist/jquery.min.js"></script>
+    <script src="https://npmcdn.com/remarkable@1.6.2/dist/remarkable.min.js"></script>
+</head>
+<body>
+<div id="content"></div>
+<script type="text/babel">
+    class App extends React.Component{
+        constructor(){
+            super();
+            //Запишем данные в стейт:
+            this.state = {name: 'Иван', surname: 'Иванов'};
+            //Привяжем к showMessage контекст навсегда:
+            this.showMessage = this.showMessage.bind(this);
+            this.changeName = this.changeName.bind(this);
+        }
+        //Метод, который должен сработать по клику с алертом:
+        showMessage(){
+            alert("Привет " + this.state.name + "!");
+        }
+        //Метод, который должен сработать по клику для изменения имени;
+        changeName(){
+            {this.setState({name: 'Коля'})};
+        }
+
+        //Выведем данные из стейта:
+        render(){
+            return(
+                <div>
+                    имя:{this.state.name}, фамилия:{this.state.surname}
+                    <p onClick={this.showMessage/*.bind(this)*/}>Нажми на меня</p>
+                    <p onClick={this.changeName}> Изменить имя</p>
+                </div>
+            );
+        }
+    }
+
+    ReactDOM.render(
+        <App/>,
+        document.getElementById("content")
+    );
+
+</script>
+
+</body>
+</html>

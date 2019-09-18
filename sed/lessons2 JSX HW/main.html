@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="https://npmcdn.com/react@15.3.0/dist/react.js"></script>
+  <script src="https://npmcdn.com/react-dom@15.3.0/dist/react-dom.js"></script>
+  <script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+  <script src="https://npmcdn.com/jquery@3.1.0/dist/jquery.min.js"></script>
+  <script src="https://npmcdn.com/remarkable@1.6.2/dist/remarkable.min.js"></script>
+</head>
+<body>
+<div id="content"></div>
+<script type="text/babel">
+    class Renderim extends React.Component{
+        getText(){
+            return <p>текст</p>
+        }
+        getNum1(){
+            return 1;
+        }
+        getNum2(){
+            return 2;
+        }
+        render(){
+            const text1 =  <p>текст1</p>;
+            const text2 =  <p>текст2</p>;
+            const attr = 'block';
+            const str = 'block';
+            const css = {
+                border: "1px solid red",
+                borderRadius: "30px"
+                };
+
+            const showText = true;
+            let text;
+            if (showText){
+                text = <p>text1</p>
+            }
+            else{
+                text = <p>text2</p>
+            }
+
+            const arr = ['a', 'b', 'c', 'd', 'e'];
+            const list = arr.map(function(item, index){
+                return <li key={index}>{item}</li>
+            });
+            const gettext = this.getText();
+            const sum = this.getNum1() + this.getNum2();
+            return (
+                <div id={attr} className={str} style={css}>
+                    {text1}
+                    <p>!!!!</p>
+                    {text2}
+                    <div>
+                        {text}
+                    </div>
+                    <ul>{list}</ul>
+                    {gettext}
+                    {sum}
+                </div>
+            );
+
+        }
+    }
+   ReactDOM.render(
+     <Renderim />,
+     document.getElementById('content')
+   );
+
+</script>
+</body>
+</html>
