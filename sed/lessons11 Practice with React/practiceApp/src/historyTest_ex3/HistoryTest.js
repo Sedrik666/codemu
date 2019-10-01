@@ -15,7 +15,11 @@ class HistoryTest extends React.Component {
                         "Гісарлик",
                         "Еверест"
                     ],
-                    answer: 'Гісарлик'
+                    correctAnswer: [
+                        "Гісарлик",
+                        "Еверест"
+                    ],
+                    userAnswer: '',
                 },
                 {
                     question: 'На місці грецької колонії тепер існує місто:',
@@ -24,7 +28,11 @@ class HistoryTest extends React.Component {
                         "Вінниця",
                         "Севастополь"
                     ],
-                    answer: 'Севастополь'
+                    correctAnswer: [
+                        "Вінниця",
+                        "Севастополь"
+                    ],
+                    userAnswer: '',
                 },
                 {
                     question: ' У Месопотамії протікають:',
@@ -33,7 +41,11 @@ class HistoryTest extends React.Component {
                         "Тигр",
                         "Інд"
                     ],
-                    answer: 'Тигр'
+                    correctAnswer: [
+                        "Тигр",
+                        "Інд"
+                    ],
+                    userAnswer: '',
                 },
             ],
             currentPage: 1,
@@ -46,21 +58,6 @@ class HistoryTest extends React.Component {
             return item.userAnswer;
         });
         this.setState({allFilled: finish});
-    }
-
-    handleChange(event, arr, index) {
-        const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
-        if (arr) {
-            const tempArr = this.state[arr].slice();
-            tempArr[index][name] = value;
-            this.setState({[arr]: tempArr});
-        } else {
-            this.setState({
-                [name]: value,
-            });
-        }
     }
 
     changePage(value) {
@@ -82,11 +79,17 @@ class HistoryTest extends React.Component {
                     кнопочку нужно вывести все вопросы на экран, под вопросами должно быть следующее: 'ваш ответ
                     такой-то, правильно' или 'ваш ответ такой-то, не правильно, правильный ответ такой-то'. Правильные
                     ответы должны быть зеленого цвета, а неправильные - красного.
+                </h4>
+                <h4>
                     4. Модифицируйте предыдущую задачу так, чтобы пользователь мог выбрать один из вариантов ответа с
                     помощью 4-х радио кнопочек. Варианты ответов также должны храниться в массиве вопросами (придумайте
                     удобную структуру массива, чтобы там лежал и вопрос, и правильный ответ, и варианты ответов).
                 </h4>
-                <QuestionsList handleChange={this.handleChange.bind(this)}
+                <h4>
+                    5. Модифицируйте предыдущую задачу так, чтобы пользователь мог выбрать несколько вариантов ответа с
+                    помощью 4-х чекбоксов.
+                </h4>
+                <QuestionsList handleChange={this.props.handleChange.bind(this)}
                                finishTest={this.finishTest.bind(this)}
                                faq={this.state.faq}
                                currentQuestion={this.state.currentPage}

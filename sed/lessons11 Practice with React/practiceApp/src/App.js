@@ -6,16 +6,31 @@ import MathTest from "./mathTest_ex2/MathTest";
 import HistoryTest from "./historyTest_ex3/HistoryTest";
 
 class App extends Component {
-  render() {
+    handleChange(event, arr, index) {
+        const target = event.target;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
+        if (arr) {
+            const tempArr = this.state[arr].slice();
+            tempArr[index][name] = value;
+            this.setState({[arr]: tempArr});
+        } else {
+            this.setState({
+                [name]: value,
+            });
+        }
+    }
+
+    render() {
     return (
       <div className="App">
         <h1> Lesson 11 </h1>
-        <WorkersInfo/>
-        <MathTest/>
-        <HistoryTest/>
+        <WorkersInfo handleChange={this.handleChange}/>
+        <MathTest handleChange={this.handleChange}/>
+        <HistoryTest handleChange={this.handleChange}/>
       </div>
     );
-  }
+    }
 }
 
 export default hot(module)(App);

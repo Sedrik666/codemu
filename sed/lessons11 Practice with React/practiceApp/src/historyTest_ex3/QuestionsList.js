@@ -9,11 +9,11 @@ class QuestionsList extends React.Component {
         const questionList = faq.map((item, index) => {
            return(
                (currentQuestion === index+1 || checking) &&
-               <figure key={index}>
+               <React.Fragment key={index}>
                    <Question question={item.question}/>
                    {
                        checking?
-                       <Result correctAnswer={item.answer}
+                       <Result correctAnswer={item.correctAnswer}
                                userAnswer={item.userAnswer || ''}
                    />:
                        <Answer index={index}
@@ -23,7 +23,7 @@ class QuestionsList extends React.Component {
                                finishTest={this.props.finishTest.bind(this)}
                         />
                    }
-               </figure>
+               </React.Fragment>
            );
         });
 

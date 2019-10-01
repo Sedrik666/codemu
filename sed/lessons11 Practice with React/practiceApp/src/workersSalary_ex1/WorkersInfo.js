@@ -18,20 +18,6 @@ class WorkersInfo extends React.Component {
         }
     }
 
-    handleChange(event, arr, index) {
-        const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
-        if(arr){
-            const tempArr = this.state[arr].slice();
-            tempArr[index][name] = value;
-            this.setState({[arr]: tempArr});
-        }
-        this.setState({
-            [name]: value,
-        });
-    }
-
     render() {
         const {workers} = this.state;
         const workersList = workers.map((item, index) => {
@@ -42,7 +28,7 @@ class WorkersInfo extends React.Component {
                        surname={item.surname}
                        workedDays={item.workedDays}
                        rate={item.rate}
-                       handleChange={this.handleChange.bind(this)}
+                       handleChange={this.props.handleChange.bind(this)}
                />
            );
         });

@@ -22,7 +22,7 @@ class Answer extends React.Component{
            );
         });
         return(
-            <figure>
+            <React.Fragment>
                 <input type="text"
                        name='userAnswer'
                        value={this.props.userAnswer}
@@ -35,7 +35,7 @@ class Answer extends React.Component{
                        }
                 />
                 {answerList}
-            </figure>
+            </React.Fragment>
         );
     }
 }
