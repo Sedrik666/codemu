@@ -3,7 +3,6 @@ import React from 'react';
 class Result extends React.Component{
     render(){
         const {correctAnswer, userAnswers} = this.props;
-        //const check = correctAnswer === userAnswers;
         let color = 'red';
         if( userAnswers.every(element => correctAnswer.includes(element))){
             color = 'orange';
