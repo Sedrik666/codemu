@@ -2,14 +2,23 @@ import React from 'react';
 
 class Result extends React.Component{
     render(){
-        const {correctAnswer, userAnswer} = this.props;
-        const check = correctAnswer === userAnswer;
+        const {correctAnswer, userAnswers} = this.props;
+        //const check = correctAnswer === userAnswers;
+        let color = 'red';
+        if( userAnswers.every(element => correctAnswer.includes(element))){
+            color = 'orange';
+            if( correctAnswer.length === userAnswers.length ){
+                color = 'green';
+            }
+        }
         return(
-            <p style={{color: check? 'green' : 'red'}}>
+            <p style={{color: color}}>
                 {
-                    check?
-                    'Ваш ответ ' + userAnswer + ', правильно':
-                    'Ваш ответ ' + userAnswer + ', не правильно, правильный ответ ' + correctAnswer
+                    color==='green'?
+                        'Ваш ответ ' + userAnswers + ', правильно':
+                    color==='orange'?
+                        'Ваш ответ ' + userAnswers + ', не совсем правильный, правильный ответ ' + correctAnswer:
+                    'Ваш ответ ' + userAnswers + ', не правильно, правильный ответ ' + correctAnswer
                 }
             </p>
         );

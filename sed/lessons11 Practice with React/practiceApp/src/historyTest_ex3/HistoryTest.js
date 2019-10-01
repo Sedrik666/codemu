@@ -19,7 +19,7 @@ class HistoryTest extends React.Component {
                         "Гісарлик",
                         "Еверест"
                     ],
-                    userAnswer: '',
+                    userAnswers: [],
                 },
                 {
                     question: 'На місці грецької колонії тепер існує місто:',
@@ -32,7 +32,7 @@ class HistoryTest extends React.Component {
                         "Вінниця",
                         "Севастополь"
                     ],
-                    userAnswer: '',
+                    userAnswers: [],
                 },
                 {
                     question: ' У Месопотамії протікають:',
@@ -45,7 +45,7 @@ class HistoryTest extends React.Component {
                         "Тигр",
                         "Інд"
                     ],
-                    userAnswer: '',
+                    userAnswers: [],
                 },
             ],
             currentPage: 1,
@@ -53,9 +53,22 @@ class HistoryTest extends React.Component {
         }
     }
 
+    selectAnswer(event, arr, index, item) {
+        const name = event.target.name;
+        const tempArr = this.state[arr].slice();
+        if(tempArr[index][name].includes(item)){
+            const pos = tempArr[index][name].indexOf(item);
+            tempArr[index][name].splice(pos,1);
+        }
+        else{
+            tempArr[index][name].push(item);
+        }
+
+    }
+
     finishTest() {
         const finish = this.state.faq.every(item => {
-            return item.userAnswer;
+            return item.userAnswers;
         });
         this.setState({allFilled: finish});
     }
@@ -89,7 +102,7 @@ class HistoryTest extends React.Component {
                     5. Модифицируйте предыдущую задачу так, чтобы пользователь мог выбрать несколько вариантов ответа с
                     помощью 4-х чекбоксов.
                 </h4>
-                <QuestionsList handleChange={this.props.handleChange.bind(this)}
+                <QuestionsList handleChange={this.selectAnswer.bind(this)}
                                finishTest={this.finishTest.bind(this)}
                                faq={this.state.faq}
                                currentQuestion={this.state.currentPage}

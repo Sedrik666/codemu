@@ -8,7 +8,7 @@ import HistoryTest from "./historyTest_ex3/HistoryTest";
 class App extends Component {
     handleChange(event, arr, index) {
         const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const value = target.type === "checkbox" ? target.checked : target.value;
         const name = target.name;
         if (arr) {
             const tempArr = this.state[arr].slice();
@@ -27,7 +27,7 @@ class App extends Component {
         <h1> Lesson 11 </h1>
         <WorkersInfo handleChange={this.handleChange}/>
         <MathTest handleChange={this.handleChange}/>
-        <HistoryTest handleChange={this.handleChange}/>
+        <HistoryTest/>
       </div>
     );
     }

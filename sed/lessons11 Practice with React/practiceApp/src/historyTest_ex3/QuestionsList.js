@@ -14,11 +14,11 @@ class QuestionsList extends React.Component {
                    {
                        checking?
                        <Result correctAnswer={item.correctAnswer}
-                               userAnswer={item.userAnswer || ''}
+                               userAnswers={item.userAnswers || ''}
                    />:
                        <Answer index={index}
                                answerVariants={item.answerVariants}
-                               userAnswer={item.userAnswer || ''}
+                               userAnswers={item.userAnswers || ''}
                                handleChange={this.props.handleChange.bind(this)}
                                finishTest={this.props.finishTest.bind(this)}
                         />
