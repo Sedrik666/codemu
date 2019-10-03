@@ -28,9 +28,9 @@ class QuestionsList extends React.Component {
         });
 
         return (
-            <figure>
+            <React.Fragment>
                 {questionList}
-            </figure>
+            </React.Fragment>
         );
     }
 }
