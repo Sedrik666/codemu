@@ -24,7 +24,7 @@ class MathematicsTest extends React.Component {
         const {faq} = this.state;
         const questionList = faq.map((item, index) => {
            return(
-               <figure key={index}>
+               <React.Fragment key={index}>
                    <Question question={item.question}/>
                    {
                        this.state.checking?
@@ -37,7 +37,7 @@ class MathematicsTest extends React.Component {
                        />
                    }
 
-               </figure>
+               </React.Fragment>
            );
         });
 

@@ -4,6 +4,7 @@ import "./App.css";
 import WorkersInfo from "./workersSalary_ex1/WorkersInfo";
 import MathTest from "./mathTest_ex2/MathTest";
 import HistoryTest from "./historyTest_ex3/HistoryTest";
+import ToDo from "./ToDo/index";
 
 class App extends Component {
     handleChange(event, arr, index) {
@@ -25,9 +26,10 @@ class App extends Component {
     return (
       <div className="App">
         <h1> Lesson 11 </h1>
-        <WorkersInfo handleChange={this.handleChange}/>
+        {/*<WorkersInfo handleChange={this.handleChange}/>
         <MathTest handleChange={this.handleChange}/>
-        <HistoryTest/>
+        <HistoryTest/>*/}
+        <ToDo handleChange={this.handleChange}/>
       </div>
     );
     }
