@@ -1,0 +1,57 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add express express-favicon path
+
+PATH: 
+  C:\Users\fedve\Desktop\learning\codemu\sed\lessons11 Practice with React\practiceApp\node_modules\.bin;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\Program Files (x86)\Yarn\bin\;C:\Users\fedve\AppData\Local\Microsoft\WindowsApps;;C:\Program Files\JetBrains\WebStorm 2019.2\bin;;C:\Users\fedve\AppData\Roaming\npm;C:\Users\fedve\AppData\Local\Yarn\bin
+
+Yarn version: 
+  1.17.3
+
+Node version: 
+  10.16.3
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: EPERM: operation not permitted, lstat 'C:\Users\fedve\Desktop\learning\codemu\sed\lessons11 Practice with React\practiceApp\node_modules\acorn-dynamic-import\lib'
+
+npm manifest: 
+  {
+    "name": "create-react-app-from-scratch",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "start": "webpack-dev-server --mode development"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+      "@babel/cli": "^7.1.0",
+      "@babel/core": "^7.1.0",
+      "@babel/preset-env": "^7.1.0",
+      "@babel/preset-react": "^7.0.0",
+      "babel-loader": "^8.0.2",
+      "css-loader": "^1.0.0",
+      "redux-devtools": "^3.5.0",
+      "style-loader": "^0.23.0",
+      "webpack": "^4.19.1",
+      "webpack-cli": "^3.1.1",
+      "webpack-dev-server": "^3.1.8"
+    },
+    "dependencies": {
+      "react": "^16.5.2",
+      "react-dom": "^16.5.2",
+      "react-hot-loader": "^4.3.11",
+      "react-redux": "^7.1.1",
+      "redux": "^4.0.4"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
